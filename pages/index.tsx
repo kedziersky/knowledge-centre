@@ -5,9 +5,12 @@ import { withProtected } from "../src/utils/route";
 import { videoCollection } from "../src/utils/firebaseConfig";
 import { VideoThumbnail } from "../src/components/videoThumbnail";
 import { Grid } from "@chakra-ui/react";
+import { Splash } from "../src/components/splash";
 
 function Home() {
   const [data, loading] = useCollectionData(videoCollection);
+
+  if (loading || !data) return <Splash />;
 
   return (
     <MainLayout>
