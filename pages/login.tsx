@@ -1,5 +1,5 @@
 import React from "react";
-// Chakra imports
+
 import {
   Box,
   Flex,
@@ -8,10 +8,21 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
+import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { withPublic } from "../src/utils/route";
+import { auth } from "../src/utils/firebaseConfig";
 
-export default function Login() {
+function Login() {
+  const provider = new GoogleAuthProvider();
+  const [_, loading] = useAuthState(auth);
   const titleColor = useColorModeValue("teal.300", "teal.200");
   const textColor = useColorModeValue("gray.400", "white");
+
+  const login = async () => {
+    await signInWithPopup(auth, provider);
+  };
+
   return (
     <Flex position="relative" mb="40px">
       <Flex
@@ -45,6 +56,9 @@ export default function Login() {
               Enter your email and password to sign in
             </Text>
             <Button
+              onClick={login}
+              isLoading={loading}
+              disabled={loading}
               fontSize="10px"
               type="submit"
               bg="teal.300"
@@ -83,3 +97,5 @@ export default function Login() {
     </Flex>
   );
 }
+
+export default withPublic(Login);
