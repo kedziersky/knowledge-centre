@@ -1,4 +1,4 @@
-import { Flex, Icon, Text, useDisclosure } from "@chakra-ui/react";
+import { Button, Flex, Icon, Text, useDisclosure } from "@chakra-ui/react";
 import Image from "next/image";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { IoMdSettings } from "react-icons/io";
@@ -8,7 +8,7 @@ import { SettingsDrawer } from "../../settingsDrawer";
 export const MainNavbar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [user] = useAuthState(auth);
-  console.log(isOpen);
+
   return (
     <Flex
       position="fixed"
@@ -25,27 +25,22 @@ export const MainNavbar = () => {
       p={4}
       w="100%"
       zIndex="overlay">
-      <Flex alignItems="center">
-        <Text noOfLines={1} maxWidth={250}>
-          {user?.displayName}
-        </Text>
-        {user?.photoURL && (
-          <Image
-            src={user?.photoURL}
-            alt="avatar"
-            width={20}
-            height={20}
-            style={{ borderRadius: 10, marginLeft: 10 }}
-          />
-        )}
-      </Flex>
-      <Icon
-        as={IoMdSettings}
-        size={16}
-        cursor="pointer"
-        ml="16px"
-        onClick={onOpen}
-      />
+      <Button onClick={onOpen}>
+        <Flex alignItems="center">
+          <Text noOfLines={1} maxWidth={250}>
+            {user?.displayName}
+          </Text>
+          {user?.photoURL && (
+            <Image
+              src={user?.photoURL}
+              alt="avatar"
+              width={20}
+              height={20}
+              style={{ borderRadius: 10, marginLeft: 10 }}
+            />
+          )}
+        </Flex>
+      </Button>
       <SettingsDrawer isOpen={isOpen} onClose={onClose} />
     </Flex>
   );

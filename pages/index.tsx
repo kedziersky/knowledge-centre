@@ -10,15 +10,17 @@ import { Splash } from "../src/components/splash";
 function Home() {
   const [data, loading] = useCollectionData(videoCollection);
 
-  if (loading || !data) return <Splash />;
-
   return (
     <MainLayout>
-      <Grid p={20} templateColumns="repeat(2, 1fr)" gap={6}>
-        {data?.map((video) => (
-          <VideoThumbnail {...video} />
-        ))}
-      </Grid>
+      {loading || !data ? (
+        <Splash />
+      ) : (
+        <Grid p={20} templateColumns="repeat(2, 1fr)" gap={6}>
+          {data?.map((video) => (
+            <VideoThumbnail {...video} />
+          ))}
+        </Grid>
+      )}
     </MainLayout>
   );
 }
