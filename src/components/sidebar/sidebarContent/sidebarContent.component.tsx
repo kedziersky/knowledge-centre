@@ -7,12 +7,16 @@ import {
   Link,
   Stack,
   Text,
+  Link as ChakraLink,
   useColorModeValue,
 } from "@chakra-ui/react";
 
-import { Separator } from "components/Separator/Separator";
+import NavLink from "next/link";
+
+import { Separator } from "../../separator";
 
 import React from "react";
+import { useRouter } from "next/router";
 
 // this function creates the links and collapses that appear in the sidebar (left menu)
 
@@ -21,10 +25,11 @@ export const SidebarContent = ({ logoText, routes }: any) => {
 
   // this is for the rest of the collapses
   const [state, setState] = React.useState({});
-
+  const router = useRouter();
   // verifies if routeName is the one active (in browser input)
+
   const activeRoute = (routeName: any) => {
-    return location.pathname === routeName ? "active" : "";
+    return router.pathname === routeName ? "active" : "";
   };
 
   const createLinks = (routes: any) => {
@@ -36,8 +41,8 @@ export const SidebarContent = ({ logoText, routes }: any) => {
 
     return routes.map((prop: any, key: any) => {
       return (
-        <Link href={prop.layout + prop.path} key={prop.name}>
-          {activeRoute(prop.layout + prop.path) === "active" ? (
+        <NavLink href={prop.path} key={prop.name}>
+          {activeRoute(prop.path) === "active" ? (
             <Button
               boxSize="initial"
               justifyContent="flex-start"
@@ -67,9 +72,7 @@ export const SidebarContent = ({ logoText, routes }: any) => {
               }}>
               <Flex>
                 <Text color={activeColor} my="auto" fontSize="sm">
-                  {document.documentElement.dir === "rtl"
-                    ? prop.rtlName
-                    : prop.name}
+                  {prop.name}
                 </Text>
               </Flex>
             </Button>
@@ -103,14 +106,12 @@ export const SidebarContent = ({ logoText, routes }: any) => {
               }}>
               <Flex>
                 <Text color={inactiveColor} my="auto" fontSize="sm">
-                  {document.documentElement.dir === "rtl"
-                    ? prop.rtlName
-                    : prop.name}
+                  {prop.name}
                 </Text>
               </Flex>
             </Button>
           )}
-        </Link>
+        </NavLink>
       );
     });
   };
@@ -120,19 +121,20 @@ export const SidebarContent = ({ logoText, routes }: any) => {
   return (
     <>
       <Box pt={"25px"} mb="12px">
-        <Link
-          href="/"
-          display="flex"
-          lineHeight="100%"
-          mb="30px"
-          fontWeight="bold"
-          justifyContent="center"
-          alignItems="center"
-          fontSize="11px">
-          <Text fontSize="sm" mt="3px">
-            KNOWLEDGE CENTRE
-          </Text>
-        </Link>
+        <NavLink href="/">
+          <ChakraLink
+            display="flex"
+            lineHeight="100%"
+            mb="30px"
+            fontWeight="bold"
+            justifyContent="center"
+            alignItems="center"
+            fontSize="11px">
+            <Text fontSize="sm" mt="3px">
+              KNOWLEDGE CENTRE
+            </Text>
+          </ChakraLink>
+        </NavLink>
         <Separator></Separator>
       </Box>
       <Stack direction="column" mb="40px">

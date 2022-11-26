@@ -2,13 +2,13 @@
 // chakra imports
 import { Box, useColorModeValue } from "@chakra-ui/react";
 import React from "react";
-import SidebarContent from "./SidebarContent";
+import { SidebarContent } from "./sidebarContent";
 
 // FUNCTIONS
 
-function Sidebar(props) {
+function Sidebar(props: any) {
   // to check for active links and opened collapses
-  const mainPanel = React.useRef();
+  const mainPanel = React.useRef() as any;
   let variantChange = "0.2s linear";
 
   const { logoText, routes, sidebarVariant } = props;
