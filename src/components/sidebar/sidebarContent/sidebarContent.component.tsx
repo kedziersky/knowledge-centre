@@ -17,10 +17,11 @@ import { Separator } from "../../separator";
 
 import React from "react";
 import { useRouter } from "next/router";
+import { ROUTES } from "../../../navigation";
 
 // this function creates the links and collapses that appear in the sidebar (left menu)
 
-export const SidebarContent = ({ logoText, routes }: any) => {
+export const SidebarContent = ({ logoText }: any) => {
   // to check for active links and opened collapses
 
   // this is for the rest of the collapses
@@ -116,7 +117,7 @@ export const SidebarContent = ({ logoText, routes }: any) => {
     });
   };
 
-  const links = <>{createLinks(routes)}</>;
+  const links = <>{createLinks(ROUTES)}</>;
 
   return (
     <>

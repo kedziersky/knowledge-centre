@@ -1,13 +1,13 @@
 import Head from "next/head";
 import Image from "next/image";
 import { Layout } from "../src/components/layout";
-import Sidebar from "../src/components/sidebar/sidebar.component";
+
 import { withProtected } from "../src/utils/route";
 import styles from "../styles/Home.module.css";
 
 function Home() {
   return (
-    <Layout>
+    <MainLayout>
       <div className={styles.container}>
         <Head>
           <title>Create Next App</title>
@@ -73,7 +73,7 @@ function Home() {
           </a>
         </footer>
       </div>
-    </Layout>
+    </MainLayout>
   );
 }
 

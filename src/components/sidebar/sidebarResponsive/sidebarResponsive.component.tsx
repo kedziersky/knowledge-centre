@@ -20,8 +20,9 @@ import Link from "next/link";
 
 import React from "react";
 import { useRouter } from "next/router";
+import { ROUTES } from "../../../navigation";
 
-function SidebarResponsive(props: any) {
+export function SidebarResponsive(props: any) {
   // to check for active links and opened collapses
   const router = useRouter();
   // this is for the rest of the collapses
@@ -143,9 +144,9 @@ function SidebarResponsive(props: any) {
     });
   };
 
-  const { logoText, routes, ...rest } = props;
+  const { logoText, ...rest } = props;
 
-  var links = <>{createLinks(routes)}</>;
+  var links = <>{createLinks(ROUTES)}</>;
   //  BRAND
   //  Chakra Color Mode
   let hamburgerColor = useColorModeValue("gray.500", "gray.200");

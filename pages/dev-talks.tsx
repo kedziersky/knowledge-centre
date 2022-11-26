@@ -3,7 +3,7 @@ import { withProtected } from "../src/utils/route";
 
 function DevTalks() {
   return (
-    <Layout>
+    <MainLayout>
       <h1>DEV TALKS</h1>
     </Layout>
   );

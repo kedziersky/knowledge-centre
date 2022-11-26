@@ -2,7 +2,7 @@ import { Layout } from "../src/components/layout";
 
 export default function CoffeeBreaks() {
   return (
-    <Layout>
+    <MainLayout>
       <h1>COFFEE BREAKS</h1>
     </Layout>
   );
