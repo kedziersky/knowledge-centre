@@ -8,18 +8,99 @@ const paginate = (array: any[], page_size: number, page_number: number) => {
 };
 const blogFeed = [
   {
+    url: "https://www.hrbartender.com/feed/",
+    type: "hr",
+    feedType: "article",
+  },
+  {
+    url: "https://www.evilhrlady.org/feed",
+    type: "hr",
+    feedType: "article",
+  },
+  {
+    url: "https://www.tinypulse.com/blog/rss.xml",
+    type: "hr",
+    feedType: "article",
+  },
+  {
+    url: "https://www.smashingmagazine.com/feed",
+    type: "frontend",
+    feedType: "article",
+  },
+  {
+    url: "https://www.sitepoint.com/sitepoint.rss",
+    type: "frontend",
+    feedType: "article",
+  },
+  {
+    url: "https://tympanus.net/codrops/feed/",
+    type: "frontend",
+    feedType: "article",
+  },
+  {
+    url: "https://austingil.com/category/development/back-end/feed/",
+    type: "backend",
+    feedType: "article",
+  },
+  {
+    url: "https://testguild.com/feed/",
+    type: "qa",
+    feedType: "article",
+  },
+  {
+    url: "https://www.softwaretestingmagazine.com/wp-content/cache/page_enhanced/www.softwaretestingmagazine.com/feed/_index_slash.xml",
+    type: "qa",
+    feedType: "article",
+  },
+  {
     url: "https://vived.io/feed",
-    type: "blog",
-    lang: "eng",
-    nickname: "Kent C. Dodds",
+    type: "dev-mix",
+    feedType: "article",
+  },
+  {
+    url: "https://www.youtube.com/feeds/videos.xml?channel_id=UCbRP3c757lWg9M-U7TyEkXA",
+    type: "frontend",
+    feedType: "video",
+  },
+  {
+    url: "https://www.youtube.com/feeds/videos.xml?channel_id=UC6vRUjYqDuoUsYsku86Lrsw",
+    type: "frontend",
+    feedType: "video",
+  },
+  {
+    url: "https://www.youtube.com/feeds/videos.xml?channel_id=UCFbNIlppjAuEX4znoulh0Cw",
+    type: "frontend",
+    feedType: "video",
+  },
+  {
+    url: "https://www.youtube.com/feeds/videos.xml?channel_id=UC_ML5xP23TOWKUcc-oAE_Eg",
+    type: "backend",
+    feedType: "video",
+  },
+  {
+    url: "https://www.youtube.com/feeds/videos.xml?channel_id=UCd6MoB9NC6uYN2grvUNT-Zg",
+    type: "backend",
+    feedType: "video",
+  },
+  {
+    url: "https://www.youtube.com/feeds/videos.xml?channel_id=UCXB6zy4Pu9bPVQHvS8XKLUw",
+    type: "qa",
+    feedType: "video",
+  },
+  {
+    url: "https://www.youtube.com/feeds/videos.xml?channel_id=UCCAwIFH3FRVD9GBuVRW_mUw",
+    type: "qa",
+    feedType: "video",
   },
 ];
+
 const parser = new RSSParser({
   customFields: {
     item: [
-      ["content:encoded", "content"],
+      ["content:encoded", "article"],
       ["author", "creator"],
       ["media:group", "group"],
+      ["media:thumbnail", "thumbnail"],
     ],
   },
 });
@@ -29,17 +110,22 @@ export default async function handler(req: any, res: any) {
   try {
     const data: any = [];
     const page = req.query.page;
-    const lang = req.query.lang;
     const type = req.query.type;
-    for (const item of blogFeed) {
-      const feed = await parser.parseURL(item.url);
+    const feedType = req.query.feedType;
+    const feedData = blogFeed.filter(
+      (a: any) => a.type === type && a.feedType === feedType
+    );
 
+    for (const item of feedData) {
+      const feed = await parser.parseURL(item.url);
       feed.items.forEach((el) => {
         const newObj = {
           ...el,
           type: item.type,
-          lang: item.lang,
-          nickname: item.nickname,
+          source: feed.title,
+          sourceUrl: feed.link,
+          sourceAvatar: feed.image?.url,
+          thumbnail: el.group["media:thumbnail"],
         };
         data.push(newObj);
       });
@@ -50,12 +136,9 @@ export default async function handler(req: any, res: any) {
       return new Date(b.isoDate) - new Date(a.isoDate);
     });
 
-    const sortByCategory =
-      type === "all" ? data : data.filter((a: any) => a.type === type);
-
     res.status(200).json({
-      data: paginate(sortByCategory, ITEMS_PER_PAGE, page),
-      pageCount: Math.ceil(sortByCategory.length / ITEMS_PER_PAGE),
+      data: paginate(data, ITEMS_PER_PAGE, page),
+      pageCount: Math.ceil(data.length / ITEMS_PER_PAGE),
     });
   } catch (err) {
     res.status(400).json(err);

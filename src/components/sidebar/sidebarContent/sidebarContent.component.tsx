@@ -30,7 +30,9 @@ export const SidebarContent = ({ logoText }: any) => {
   // verifies if routeName is the one active (in browser input)
 
   const activeRoute = (routeName: any) => {
-    return router.pathname === routeName ? "active" : "";
+    const pathName = `/${routeName.split("/")[1]}`;
+
+    return router.pathname === pathName ? "active" : "";
   };
 
   const createLinks = (routes: any) => {

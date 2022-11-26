@@ -7,7 +7,9 @@ import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 
 import { MainPanel } from "./mainPanel";
+
 import { Sidebar } from "../components/sidebar/sidebar.component";
+
 import { MainNavbar } from "../components/navbars/mainNavbar";
 // Custom components
 
@@ -23,7 +25,8 @@ export function MainLayout({ children }: any) {
         w={{
           base: "100%",
           xl: "calc(100% - 275px)",
-        }}>
+        }}
+        p={5}>
         {children}
       </MainPanel>
     </>

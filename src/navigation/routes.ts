@@ -20,8 +20,14 @@ export const ROUTES = [
     layout: "/",
   },
   {
-    path: "/news-feed",
+    path: "/news-feed?filter=frontend&feedType=article",
     name: "News Feed",
+    layout: "/",
+  },
+  {
+    path: "/apptension-feed",
+    name: "Apptension Feed",
+    component: () => null,
     layout: "/",
   },
 ];
