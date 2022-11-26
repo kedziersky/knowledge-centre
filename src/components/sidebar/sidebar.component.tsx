@@ -1,21 +1,22 @@
-import { Box } from "@chakra-ui/react";
+import { Box, useColorModeValue } from "@chakra-ui/react";
 
 import { SidebarContent } from "./sidebarContent";
 import { SidebarResponsive } from "./sidebarResponsive";
 
 export const Sidebar = () => {
+  const activeBg = useColorModeValue("white", "gray.700");
   return (
     <>
       <Box zIndex="overlay">
-        <Box display={{ sm: "none", xl: "block" }} position="fixed">
+        <Box
+          display={{ sm: "none", xl: "block" }}
+          position="fixed"
+          bg={activeBg}>
           <Box
             bg="none"
             transition="0.2s linear"
             w="260px"
             maxW="260px"
-            ms={{
-              sm: "16px",
-            }}
             my={{
               sm: "16px",
             }}

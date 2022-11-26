@@ -1,13 +1,17 @@
 import { Flex, Icon, Text, useDisclosure } from "@chakra-ui/react";
+import Image from "next/image";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { IoMdSettings } from "react-icons/io";
+import { auth } from "../../../utils/firebaseConfig";
 import { SettingsDrawer } from "../../settingsDrawer";
 
 export const MainNavbar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-
+  const [user] = useAuthState(auth);
+  console.log(isOpen);
   return (
     <Flex
-      position="relative"
+      position="fixed"
       transitionDelay="0s, 0s, 0s, 0s"
       transitionDuration=" 0.25s, 0.25s, 0.25s, 0s"
       transition-property="box-shadow, background-color, filter, border"
@@ -20,9 +24,20 @@ export const MainNavbar = () => {
       justifyContent="flex-end"
       p={4}
       w="100%"
-      zIndex="base">
+      zIndex="overlay">
       <Flex alignItems="center">
-        <Text noOfLines={1} maxWidth={250}>{`User Name`}</Text>
+        <Text noOfLines={1} maxWidth={250}>
+          {user?.displayName}
+        </Text>
+        {user?.photoURL && (
+          <Image
+            src={user?.photoURL}
+            alt="avatar"
+            width={20}
+            height={20}
+            style={{ borderRadius: 10, marginLeft: 10 }}
+          />
+        )}
       </Flex>
       <Icon
         as={IoMdSettings}

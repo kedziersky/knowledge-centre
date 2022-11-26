@@ -8,6 +8,8 @@ import {
   Flex,
   Text,
 } from "@chakra-ui/react";
+import { signOut } from "firebase/auth";
+import { auth } from "../../utils/firebaseConfig";
 import { Separator } from "../separator";
 
 interface SettingsDrawerProps {
@@ -16,6 +18,9 @@ interface SettingsDrawerProps {
 }
 
 export const SettingsDrawer = ({ isOpen, onClose }: SettingsDrawerProps) => {
+  const handleLogout = () => {
+    signOut(auth);
+  };
   return (
     <Drawer
       isOpen={isOpen}
@@ -32,7 +37,9 @@ export const SettingsDrawer = ({ isOpen, onClose }: SettingsDrawerProps) => {
         </DrawerHeader>
         <DrawerBody w="340px" ps="24px" pe="40px">
           <Flex flexDirection="column">
-            <Button variant="link">Log out</Button>
+            <Button variant="link" onClick={handleLogout}>
+              Log out
+            </Button>
           </Flex>
         </DrawerBody>
       </DrawerContent>
