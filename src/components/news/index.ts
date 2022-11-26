@@ -1,0 +1,1 @@
+export { NewsBox } from "./newsBox";

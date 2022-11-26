@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
-import { Layout } from "../src/components/layout";
+import { MainLayout } from "../src/layouts";
 
 import { withProtected } from "../src/utils/route";
 import styles from "../styles/Home.module.css";

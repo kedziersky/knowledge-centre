@@ -1,9 +1,9 @@
-import { Layout } from "../src/components/layout";
+import { MainLayout } from "../src/layouts";
 
 export default function CoffeeBreaks() {
   return (
     <MainLayout>
       <h1>COFFEE BREAKS</h1>
-    </Layout>
+    </MainLayout>
   );
 }

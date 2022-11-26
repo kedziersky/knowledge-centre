@@ -18,8 +18,8 @@ export const ROUTES = [
     layout: "/",
   },
   {
-    path: "/tech-news",
-    name: "Tech News",
+    path: "/news-feed",
+    name: "News Feed",
     component: () => null,
     layout: "/",
   },

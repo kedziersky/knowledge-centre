@@ -1,5 +1,6 @@
 import { useQuery } from "react-query";
-import { Layout } from "../src/components/layout";
+import { NewsBox } from "../src/components/news";
+
 import { MainLayout } from "../src/layouts";
 import { fetchFeed } from "../src/services/api/fetchFeed";
 import { withProtected } from "../src/utils/route";
@@ -11,7 +12,7 @@ function TechNews() {
   console.log({ data });
   return (
     <MainLayout>
-      <h1>TECH NEWS</h1>
+      <NewsBox />
     </MainLayout>
   );
 }
