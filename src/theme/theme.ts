@@ -1,4 +1,4 @@
-import { extendTheme } from "@chakra-ui/react";
+import { extendTheme, ThemeConfig } from "@chakra-ui/react";
 import { globalStyles } from "./styles";
 import { breakpoints } from "./foundations/breakpoints";
 import { buttonStyles } from "./components/button";
@@ -12,8 +12,14 @@ import { MainPanelComponent } from "./additions/layout/mainPanel";
 import { PanelContentComponent } from "./additions/layout/panelContent";
 import { PanelContainerComponent } from "./additions/layout/panelContainer";
 // import { mode } from "@chakra-ui/theme-tools";
+
+const config: ThemeConfig = {
+  initialColorMode: "dark",
+  useSystemColorMode: false,
+};
+
 export default extendTheme(
-  { breakpoints }, // Breakpoints
+  { breakpoints, config }, // Breakpoints
   globalStyles,
   buttonStyles, // Button styles
   badgeStyles, // Badge styles
