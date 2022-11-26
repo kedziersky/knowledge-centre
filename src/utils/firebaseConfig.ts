@@ -1,6 +1,6 @@
 import { getAuth } from "@firebase/auth";
 import { initializeApp } from "firebase/app";
-import { collection, getFirestore } from "firebase/firestore";
+import { collection, doc, getFirestore } from "firebase/firestore";
 import { getStorage, ref } from "firebase/storage";
 
 const firebaseConfig = {
@@ -16,8 +16,14 @@ const firebaseConfig = {
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const storage = getStorage(app);
+export const firestore = getFirestore(app);
 
-export const videoCollection = collection(getFirestore(app), "video");
+export const videoCollection = collection(firestore, "video");
 export const getThumbnailRef = (videoId: string) =>
   ref(storage, `/videoThumbnails/${videoId}/thumbnail.jpeg`);
-// gs://knowledge-centre-dev.appspot.com/videoThumbnails/12_u2ny6hvR2XK-GjpAUhEq9Eji-Rtbt0/thumbnail.jpeg
+
+export const getUsersLikesDoc = (userId: string, videoId: string) =>
+  doc(firestore, "users", userId, "likes", videoId);
+
+export const getUsersVideoBookmarksDoc = (userId: string, videoId: string) =>
+  doc(firestore, "users", userId, "videoBookmarks", videoId);
