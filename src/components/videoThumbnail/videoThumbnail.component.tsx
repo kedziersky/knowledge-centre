@@ -10,6 +10,7 @@ import { BsFillBookmarkFill } from "react-icons/bs";
 import Image from "next/image";
 import { useDownloadURL } from "react-firebase-hooks/storage";
 import { getThumbnailRef } from "../../utils/firebaseConfig";
+import Link from "next/link";
 
 export function VideoThumbnail({ videoId, author, title }: any) {
   const [url] = useDownloadURL(getThumbnailRef(videoId));
@@ -24,7 +25,9 @@ export function VideoThumbnail({ videoId, author, title }: any) {
       overflow="hidden"
       position="relative"
       shadow="md">
-      <Image src={url} alt="video thumbnail" width={500} height={500} />
+      <Link href={`/video/${videoId}`}>
+        <Image src={url} alt="video thumbnail" width={500} height={500} />
+      </Link>
       <Box
         position="absolute"
         top={211}
