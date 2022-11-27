@@ -1,13 +1,18 @@
 import { ArrowBackIcon } from "@chakra-ui/icons";
-import { Box, Button, Flex, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Text, useDisclosure } from "@chakra-ui/react";
+import { deleteDoc } from "firebase/firestore";
 import { useRouter } from "next/router";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 import { Chat } from "../../src/components/chat/chat.component";
 import { Notes } from "../../src/components/notes";
+import { VideoForm } from "../../src/components/videoForm";
 import { VideoInfo } from "../../src/components/videoInfo";
+import { auth, getVideoDoc } from "../../src/utils/firebaseConfig";
 import { withProtected } from "../../src/utils/route";
 
 function Video() {
+  const [user] = useAuthState(auth);
   const router = useRouter();
   const { videoId } = router.query;
 
@@ -19,6 +24,7 @@ function Video() {
     }
   };
 
+  console.log(user);
   return (
     <Flex h="100vh" flexWrap="wrap">
       <Box flex={1} height={"100%"} p={4} py={3}>
@@ -51,12 +57,7 @@ function Video() {
           />
         </Box>
         <VideoInfo videoId={videoId} />
-        <Flex p={4} mb={5} pt={2}>
-          <Button colorScheme="blue" marginRight={3}>
-            Edit
-          </Button>
-          <Button colorScheme="red">Delete</Button>
-        </Flex>
+
         <Notes videoId={videoId} />
       </Box>
     </Flex>

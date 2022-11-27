@@ -1,5 +1,5 @@
 import { Grid, Text } from "@chakra-ui/react";
-import { query, where } from "firebase/firestore";
+import { orderBy, query, where } from "firebase/firestore";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { Splash } from "../src/components/splash";
 import { VideoThumbnail } from "../src/components/videoThumbnail";
@@ -9,7 +9,11 @@ import { withProtected } from "../src/utils/route";
 
 function KnowledgeShots() {
   const [data, loading] = useCollectionData(
-    query(videoCollection, where("category", "==", "knowledge-shots"))
+    query(
+      videoCollection,
+      where("category", "==", "knowledge-shots"),
+      orderBy("createdAt", "desc")
+    )
   );
   return (
     <MainLayout>

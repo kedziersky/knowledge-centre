@@ -1,7 +1,7 @@
 import { Button, FormControl, Input, Select } from "@chakra-ui/react";
 import { addDoc, serverTimestamp, setDoc } from "firebase/firestore";
 import { ref, uploadBytes } from "firebase/storage";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
   firestore,
@@ -11,27 +11,36 @@ import {
 } from "../../utils/firebaseConfig";
 import { FormModal } from "../formModal";
 
-export function VideoForm({ onClose, isOpen }: any) {
+export function VideoForm({ onClose, isOpen, video }: any) {
+  console.log(video);
   const [loading, setLoading] = useState(false);
-  const { register, handleSubmit } = useForm({
+  const { register, handleSubmit, setValue } = useForm({
     defaultValues: {
-      title: "",
-      description: "",
-      videoId: "",
-      authors: "",
-      category: "dev-talks",
-      thumbnail: null,
+      title: video?.title || "",
+      description: video?.description || "",
+      videoId: video?.videoId || "",
+      authors: video?.authors || "",
+      category: video?.category || "dev-talks",
     },
   });
+  useEffect(() => {
+    if (video) {
+      setValue("title", video.title);
+      setValue("description", video.description);
+      setValue("videoId", video.videoId);
+      setValue("authors", video.authors);
+      setValue("category", video.category);
+    }
+  }, [video]);
   const handleVideoForm = async ({ thumbnail, ...data }: any) => {
     setLoading(true);
-    await setDoc(getVideoDoc(data.videoId), {
-      ...data,
-      createdAt: serverTimestamp(),
-    });
-    await uploadBytes(
-      ref(storage, `/videoThumbnails/${data.videoId}/thumbnail.jpeg`),
-      thumbnail[0]
+    await setDoc(
+      getVideoDoc(data.videoId),
+      {
+        ...data,
+        createdAt: serverTimestamp(),
+      },
+      { merge: true }
     );
     setLoading(false);
     onClose();
@@ -55,19 +64,13 @@ export function VideoForm({ onClose, isOpen }: any) {
             <option value="knowledge-shots">Knowledge Shots</option>
             <option value="coffee-breaks">Coffee Breaks</option>
           </Select>
-          <label>Thumbnail</label>
-          <input
-            style={{ display: "block" }}
-            type="file"
-            {...register("thumbnail")}
-          />
           <Button
             colorScheme="blue"
             type="submit"
             mt={5}
             disabled={loading}
             isLoading={loading}>
-            Add
+            {video ? "Edit" : "Add"}
           </Button>
         </form>
       </FormControl>
