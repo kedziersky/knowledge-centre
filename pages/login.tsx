@@ -23,7 +23,10 @@ function Login() {
   const textColor = useColorModeValue("gray.400", "white");
 
   const handleGoogleSignIn = async () => {
-    await signInWithPopup(auth, provider);
+    await signInWithPopup(auth, provider).then(() => {
+      const audio = new Audio("/login_sound.mp3");
+      audio.play();
+    });
   };
   return (
     <Flex position="relative" mb="40px">
