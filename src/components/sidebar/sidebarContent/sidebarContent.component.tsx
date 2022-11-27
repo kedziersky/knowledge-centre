@@ -30,7 +30,9 @@ export const SidebarContent = ({ logoText }: any) => {
   // verifies if routeName is the one active (in browser input)
 
   const activeRoute = (routeName: any) => {
-    return router.pathname === routeName ? "active" : "";
+    const pathName = `/${routeName.split("/")[1]}`;
+
+    return router.pathname === pathName ? "active" : "";
   };
 
   const createLinks = (routes: any) => {
@@ -122,20 +124,20 @@ export const SidebarContent = ({ logoText }: any) => {
   return (
     <>
       <Box pt={"25px"} mb="12px">
-        <NavLink href="/">
-          <ChakraLink
-            display="flex"
-            lineHeight="100%"
-            mb="30px"
-            fontWeight="bold"
-            justifyContent="center"
-            alignItems="center"
-            fontSize="11px">
-            <Text fontSize="sm" mt="3px">
-              KNOWLEDGE CENTRE
-            </Text>
-          </ChakraLink>
-        </NavLink>
+        <ChakraLink
+          display="flex"
+          lineHeight="100%"
+          mb="30px"
+          fontWeight="bold"
+          justifyContent="center"
+          alignItems="center"
+          fontSize="11px"
+          href="/"
+          as={NavLink}>
+          <Text fontSize="sm" mt="3px">
+            KNOWLEDGE CENTRE
+          </Text>
+        </ChakraLink>
         <Separator></Separator>
       </Box>
       <Stack direction="column" mb="40px">
