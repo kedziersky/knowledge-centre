@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { FeedTypeFilter } from "../src/components/feedTypeFilter";
 
-function TechNews() {
+function NewsFeed() {
   const [type, setType] = useState("frontend");
   const [feedType, setFeedType] = useState("article");
   const [page, setPage] = useState(1);
@@ -30,7 +30,7 @@ function TechNews() {
   const renderNewsList = () => {
     if (status === "loading") return <Spinner />;
 
-    if (!data.data.length)
+    if (!data?.data.length)
       return (
         <Text fontSize="20px" fontWeight="bold">
           No data so far 🥺
@@ -50,4 +50,4 @@ function TechNews() {
   );
 }
 
-export default withProtected(TechNews);
+export default withProtected(NewsFeed);

@@ -112,12 +112,13 @@ export default async function handler(req: any, res: any) {
     const page = req.query.page;
     const type = req.query.type;
     const feedType = req.query.feedType;
-    const feedData = blogFeed.filter(
-      (a: any) => a.type === type && a.feedType === feedType
-    );
+    const feedData = blogFeed.filter((a: any) => {
+      return a.type === type && a.feedType === feedType;
+    });
 
     for (const item of feedData) {
       const feed = await parser.parseURL(item.url);
+
       feed.items.forEach((el) => {
         const newObj = {
           ...el,
@@ -125,7 +126,8 @@ export default async function handler(req: any, res: any) {
           source: feed.title,
           sourceUrl: feed.link,
           sourceAvatar: feed.image?.url,
-          thumbnail: el.group["media:thumbnail"],
+          thumbnail:
+            item.feedType === "video" ? el.group["media:thumbnail"] : null,
         };
         data.push(newObj);
       });
@@ -141,6 +143,7 @@ export default async function handler(req: any, res: any) {
       pageCount: Math.ceil(data.length / ITEMS_PER_PAGE),
     });
   } catch (err) {
+    console.log({ err });
     res.status(400).json(err);
   }
 }

@@ -24,6 +24,7 @@ export const FilterButton = ({ name, filterName }: any) => {
       onClick={handleButtonClick}
       variant={isActive ? "solid" : "outline"}
       mr={3}
+      colorScheme="blue"
       pointerEvents={isActive ? "none" : "auto"}>
       {name}
     </Button>

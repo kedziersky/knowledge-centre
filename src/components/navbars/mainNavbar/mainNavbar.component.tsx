@@ -1,7 +1,10 @@
 import { Button, Flex, Icon, Text, useDisclosure } from "@chakra-ui/react";
 import Image from "next/image";
+import Link from "next/link";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { IoMdSettings } from "react-icons/io";
+import { ROUTES } from "../../../navigation";
+import { ROUTES_PATHS } from "../../../navigation/routesPaths";
 import { auth } from "../../../utils/firebaseConfig";
 import { SettingsDrawer } from "../../settingsDrawer";
 
@@ -25,22 +28,31 @@ export const MainNavbar = () => {
       p={4}
       w="100%"
       zIndex="overlay">
-      <Button onClick={onOpen}>
-        <Flex alignItems="center">
-          <Text noOfLines={1} maxWidth={250}>
-            {user?.displayName}
-          </Text>
-          {user?.photoURL && (
-            <Image
-              src={user?.photoURL}
-              alt="avatar"
-              width={20}
-              height={20}
-              style={{ borderRadius: 10, marginLeft: 10 }}
-            />
-          )}
-        </Flex>
+      <Button colorScheme="teal" mr="5">
+        Add talk - display only for admin
       </Button>
+      <Button
+        colorScheme="teal"
+        mr="5"
+        as={Link}
+        href={ROUTES_PATHS.apptensionFeed.add}>
+        Add news
+      </Button>
+      <Flex alignItems="center" onClick={onOpen} _hover={{ cursor: "pointer" }}>
+        {user?.photoURL && (
+          <Image
+            src={user?.photoURL}
+            alt="avatar"
+            width={35}
+            height={35}
+            style={{ borderRadius: 100, marginRight: 10 }}
+          />
+        )}
+        <Text noOfLines={1} maxWidth={250} fontWeight="bold">
+          Hi, {user?.displayName?.split(" ")[0]}!
+        </Text>
+      </Flex>
+
       <SettingsDrawer isOpen={isOpen} onClose={onClose} />
     </Flex>
   );

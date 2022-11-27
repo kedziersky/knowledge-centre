@@ -10,7 +10,8 @@ export const NewsBox = ({ item }: any) => {
   const handleSaveForLater = () => {
     toast.success("Saved for later!", { position: "bottom-center" });
   };
-  const thumbnail = item.thumbnail[0]["$"].url;
+
+  const thumbnail = item.thumbnail && item.thumbnail[0]["$"].url;
 
   return (
     <GridItem bg="gray.700" p="5" borderRadius="lg" height={"fit-content"}>

@@ -4,7 +4,7 @@ import { FilterButton } from "./filterButton";
 
 export const FeedFilter = () => {
   return (
-    <Flex mb="8">
+    <Flex mb="5">
       {FILTER_OPTIONS.map(({ name, filterName }) => (
         <FilterButton name={name} filterName={filterName} />
       ))}

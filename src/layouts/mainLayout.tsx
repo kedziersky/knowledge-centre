@@ -8,7 +8,7 @@ import "@fontsource/roboto/700.css";
 
 import { MainPanel } from "./mainPanel";
 
-import { Sidebar } from "../components/sidebar/sidebar.component";
+import { Sidebar } from "../components/sidebar";
 
 import { MainNavbar } from "../components/navbars/mainNavbar";
 // Custom components
