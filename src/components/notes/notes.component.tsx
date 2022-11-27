@@ -44,7 +44,9 @@ export function Notes({ videoId }: any) {
       <FormControl>
         <form onSubmit={handleSubmit(handleNotes)}>
           <Flex justifyContent="space-between" alignItems="center" mb={4}>
-            <Text>Notes</Text>
+            <Text fontWeight="bold" fontSize="lg">
+              My Notes
+            </Text>
             <Button colorScheme="teal" type="submit">
               Save
             </Button>
