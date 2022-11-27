@@ -11,10 +11,10 @@ const MainPanel = {
     transitionTimingFunction: "linear, linear, ease",
   },
   variants: {
-    main: (props) => ({
+    main: () => ({
       float: "right",
     }),
-    rtl: (props) => ({
+    rtl: () => ({
       float: "left",
     }),
   },
