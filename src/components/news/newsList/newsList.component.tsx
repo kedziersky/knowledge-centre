@@ -1,19 +1,16 @@
 import { Flex, Grid } from "@chakra-ui/react";
 import { NewsBox } from "../newsBox";
 
-export const NewsList = ({ items }: any) => {
-  const half = Math.ceil(items.data.length / 2);
-  const firstHalf = items.data.slice(0, half);
-  const secondHalf = items.data.slice(half);
+export const NewsList = ({ firstChunk, secondChunk }: any) => {
   return (
-    <Flex gap="45px" flexWrap="wrap">
+    <Flex gap="45px">
       <Flex flexDirection="column" flex={1}>
-        {firstHalf.map((item: any) => (
+        {firstChunk.map((item: any) => (
           <NewsBox item={item} />
         ))}
       </Flex>
       <Flex flexDirection="column" flex={1}>
-        {secondHalf.map((item: any) => (
+        {secondChunk.map((item: any) => (
           <NewsBox item={item} />
         ))}
       </Flex>

@@ -66,6 +66,7 @@ export const NewsBox = ({ item }: any) => {
       {item.contentSnippet && (
         <Box
           fontSize="14px"
+          maxWidth={500}
           px={5}
           mt={5}
           dangerouslySetInnerHTML={{ __html: item.contentSnippet }}
