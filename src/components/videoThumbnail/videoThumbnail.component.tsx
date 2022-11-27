@@ -70,7 +70,17 @@ export function VideoThumbnail({ videoId, authors, title, ...props }: any) {
       {...props}
       shadow="md">
       <Link href={`/video/${videoId}`}>
-        <Image src={url} alt="video thumbnail" width={500} height={500} />
+        <Box width={500} height={260}>
+          <Box
+            as="iframe"
+            src={`https://drive.google.com/file/d/${videoId}/preview`}
+            position="absolute"
+            width="100%"
+            height="calc(100% - 51px)"
+            pointerEvents="none"
+          />
+        </Box>
+        {/* <Image src={url} alt="video thumbnail" width={500} height={500} /> */}
       </Link>
       <Box
         position="absolute"
