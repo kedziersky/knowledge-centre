@@ -1,4 +1,11 @@
-import { Button, FormControl, Input, Select } from "@chakra-ui/react";
+import {
+  Button,
+  Flex,
+  FormControl,
+  Input,
+  Select,
+  Text,
+} from "@chakra-ui/react";
 import { addDoc, serverTimestamp, setDoc } from "firebase/firestore";
 import { ref, uploadBytes } from "firebase/storage";
 import { useEffect, useState } from "react";
@@ -47,18 +54,28 @@ export function VideoForm({ onClose, isOpen, video }: any) {
   };
   if (!isOpen) return null;
   return (
-    <FormModal onClose={onClose} isOpen={isOpen} title="Add new news!">
+    <FormModal onClose={onClose} isOpen={isOpen} title="Add a talk!">
       <FormControl>
         <form onSubmit={handleSubmit(handleVideoForm)}>
-          <label>Title</label>
+          <Text as="label" fontWeight="bold">
+            Title
+          </Text>
           <Input {...register("title")} mb={2} />
-          <label>Description</label>
+          <Text as="label" fontWeight="bold">
+            Description
+          </Text>
           <Input {...register("description")} mb={2} />
-          <label>Video ID</label>
+          <Text as="label" fontWeight="bold">
+            Video ID
+          </Text>
           <Input {...register("videoId", { required: true })} mb={2} />
-          <label>Author(s)</label>
+          <Text as="label" fontWeight="bold">
+            Author(s)
+          </Text>
           <Input {...register("authors")} mb={2} />
-          <label>Category</label>
+          <Text as="label" fontWeight="bold">
+            Category
+          </Text>
           <Select defaultValue="dev-talks" {...register("category")} mb={2}>
             <option value="dev-talks">Dev Talks</option>
             <option value="knowledge-shots">Knowledge Shots</option>

@@ -10,7 +10,6 @@ export const Pagination = ({
   forcePage,
 }: any) => {
   const handlePageClick = ({ selected }: any) => {
-    console.log("text", { selected });
     setPage(selected);
     window.scroll({
       top: 0,

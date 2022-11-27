@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { firestore } from "../../src/utils/firebaseConfig";
 import openGraph from "fetch-opengraph";
 
@@ -11,7 +11,13 @@ const paginate = (array: any[], page_size: number, page_number: number) => {
 
 export default async function handler(req: any, res: any) {
   try {
-    const snapshot = await getDocs(collection(firestore, "apptensionFeed"));
+    const type = req.query.type;
+    const newsCollection = collection(firestore, "apptensionFeed");
+    const queryCollection = query(
+      newsCollection,
+      where("category", "==", type)
+    );
+    const snapshot = await getDocs(queryCollection);
     const data: any = [];
     for (let i = 0; i < snapshot.docs.length; i++) {
       // doc.data() is never undefined for query doc snapshots
@@ -28,19 +34,18 @@ export default async function handler(req: any, res: any) {
         desc: dataOpenGraph["og:description"],
         video: dataOpenGraph["video"],
       };
-      console.log(newObj);
+
       data.push(newObj);
     }
 
     const page = req.query.page;
-    const type = req.query.type;
     const feedType = req.query.feedType;
 
     /*  data.sort((a: any, b: any) => {
       //@ts-ignore
       return new Date(b.isoDate) - new Date(a.isoDate);
     }); */
-    console.log({ data });
+
     res.status(200).json({
       data,
     });

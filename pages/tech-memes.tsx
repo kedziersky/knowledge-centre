@@ -6,6 +6,7 @@ import { NewsList } from "../src/components/memesList";
 import { MainLayout } from "../src/layouts";
 import { fetchFeed } from "../src/services/api/fetchFeed";
 import { fetchMemes } from "../src/services/api/fetchMemes";
+import { withProtected } from "../src/utils/route";
 
 const useMemes = () => {
   const [firstHalf, setFirstHalf] = useState<any>([]);
@@ -33,7 +34,7 @@ const useMemes = () => {
   return [firstHalf, secondHalf, status, setPage] as any;
 };
 
-export default function ApptensionFeed() {
+function ApptensionFeed() {
   const [firstChunk, secondChunk, status, setPage] = useMemes();
 
   const observer = useRef() as any;
@@ -65,8 +66,11 @@ export default function ApptensionFeed() {
   };
   return (
     <MainLayout>
-      <Text fontSize="30px" fontWeight="bold" mb="10">
+      <Text fontSize="3xl" fontWeight="bold">
         Memes
+      </Text>
+      <Text fontSize="xl" mb={10}>
+        Take a break and look at some memes! 😂
       </Text>
       {renderNewsList()}
       {status !== "loading" && <Box ref={lastBookElementRef}></Box>}
@@ -76,3 +80,5 @@ export default function ApptensionFeed() {
     </MainLayout>
   );
 }
+
+export default withProtected(ApptensionFeed);

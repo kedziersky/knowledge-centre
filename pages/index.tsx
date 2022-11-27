@@ -35,12 +35,18 @@ function Home() {
 
   return (
     <MainLayout>
+      <Text fontSize="3xl" fontWeight="bold">
+        Latest Talks!
+      </Text>
+      <Text fontSize="xl" mb={10}>
+        See the what's new in the house! 🏠
+      </Text>
       <Box>
         {devLoading || !devTalks ? (
           <Spinner />
         ) : (
           <Box>
-            <Text fontSize="26" fontWeight="bold" mb="3">
+            <Text fontSize={20} fontWeight="bold" mb="3">
               Dev Talks
             </Text>
             <Flex className="scrollbarWrapper">
@@ -56,7 +62,7 @@ function Home() {
           <Spinner />
         ) : (
           <Box mt={10}>
-            <Text fontSize="26" fontWeight="bold" mb="3">
+            <Text fontSize={20} fontWeight="bold" mb="3">
               Knowledge Shots
             </Text>
             <Flex className="scrollbarWrapper">
@@ -72,7 +78,7 @@ function Home() {
           <Spinner />
         ) : (
           <Box mt={10}>
-            <Text fontSize="26" fontWeight="bold" mb="3">
+            <Text fontSize={20} fontWeight="bold" mb="3">
               Coffee Breaks
             </Text>
             <Flex className="scrollbarWrapper">

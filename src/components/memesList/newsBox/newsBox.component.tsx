@@ -37,7 +37,7 @@ export const NewsBox = ({ item }: any) => {
   const handleSaveForLater = () => {
     toast.success("Saved for later!", { position: "bottom-center" });
   };
-  console.log(item);
+
   const thumbnail = item.thumbnail.url;
 
   const handleCopyURL = () => {

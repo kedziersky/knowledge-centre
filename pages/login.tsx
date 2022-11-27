@@ -9,6 +9,7 @@ import {
   useColorModeValue,
   Icon,
 } from "@chakra-ui/react";
+import { AiOutlineGoogle } from "react-icons/ai";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { withPublic } from "../src/utils/route";
@@ -36,23 +37,23 @@ function Login() {
         w="100%"
         maxW="1044px"
         mx="auto"
-        justifyContent="space-between"
+        justifyContent="center"
         mb="30px"
         pt={{ sm: "100px", md: "0px" }}>
         <Flex
           alignItems="center"
           justifyContent="start"
-          style={{ userSelect: "none" }}
-          w={{ base: "100%", md: "50%", lg: "42%" }}>
+          style={{ userSelect: "none" }}>
           <Flex
             direction="column"
             w="100%"
             background="transparent"
             p="48px"
+            justifyContent="center"
             mt={{ md: "150px", lg: "80px" }}>
             <Heading
               color={titleColor}
-              fontSize="32px"
+              fontSize="42px"
               mb="10px"
               display="flex"
               alignItems="center">
@@ -64,7 +65,10 @@ function Login() {
               onClick={handleGoogleSignIn}
               isLoading={loading}
               disabled={loading}
-              fontSize="10px"
+              display="flex"
+              alignItems="center"
+              maxW="fit-content"
+              fontSize="14px"
               type="submit"
               bg="teal.300"
               w="100%"
@@ -72,32 +76,18 @@ function Login() {
               mb="20px"
               color="white"
               mt="20px"
+              mx="auto"
               _hover={{
                 bg: "teal.200",
               }}
               _active={{
                 bg: "teal.400",
               }}>
-              SIGN IN WITH GOOGLE
+              <Icon as={AiOutlineGoogle} mr={1} />
+              Sign In With Google
             </Button>
           </Flex>
         </Flex>
-        <Box
-          display={{ base: "none", md: "block" }}
-          overflowX="hidden"
-          h="100%"
-          w="40vw"
-          position="absolute"
-          right="0px">
-          <Box
-            bgImage={`url(/signInImage.png)`}
-            w="100%"
-            h="100%"
-            bgSize="cover"
-            bgPosition="50%"
-            position="absolute"
-            borderBottomLeftRadius="20px"></Box>
-        </Box>
       </Flex>
     </Flex>
   );

@@ -17,8 +17,11 @@ function DevTalks() {
   );
   return (
     <MainLayout>
-      <Text fontSize="30px" fontWeight="bold" mb="10">
+      <Text fontSize="3xl" fontWeight="bold">
         Dev Talks
+      </Text>
+      <Text fontSize="xl" mb={10}>
+        Expand your dev knowledge! 🤓
       </Text>
       {loading || !data ? (
         <Splash />

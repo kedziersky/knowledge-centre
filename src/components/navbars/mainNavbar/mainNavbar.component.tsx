@@ -40,13 +40,13 @@ export const MainNavbar = () => {
       w="100%"
       zIndex="overlay">
       <Button
-        colorScheme="teal"
+        colorScheme="telegram"
         mr="5"
         onClick={onVideoModalOpen}
-        variant="raw">
-        Add talk - display only for admin
+        fontSize="sm">
+        Add talk
       </Button>
-      <Button colorScheme="teal" mr="5" onClick={onModalOpen} variant="raw">
+      <Button colorScheme="green" mr="5" onClick={onModalOpen} fontSize="sm">
         Add news
       </Button>
       <Button variant="ghost" onClick={onOpen}>
