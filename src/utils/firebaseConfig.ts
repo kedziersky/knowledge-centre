@@ -43,3 +43,20 @@ export const getUsersVideoBookmarksCollection = (userId: string) =>
   collection(firestore, "users", userId, "videoBookmarks");
 
 export const getApptensionNews = () => collection(firestore, "apptensionFeed");
+
+export const getUsersNewsBookmarkDoc = (userId: string, url: string) =>
+  doc(firestore, "users", userId, "newsBookmarks", url);
+
+export const getusersNewsBookmarkCollection = (userId: string) =>
+  collection(firestore, "users", userId, "newsBookmarks");
+
+export const getUsersMemeBookmarkDoc = (userId: string, url: string) =>
+  doc(firestore, "users", userId, "memeBookmarks", url);
+
+export const getUsersMemeBookmarkCollection = (userId: string) =>
+  collection(firestore, "users", userId, "memeBookmarks");
+
+export const getUsersApptensionBookmarkDoc = (userId: string, url: string) =>
+  doc(firestore, "users", userId, "apptensionBookmarks", url);
+export const getUsersApptensionBookmarkCollection = (userId: string) =>
+  collection(firestore, "users", userId, "apptensionBookmarks");

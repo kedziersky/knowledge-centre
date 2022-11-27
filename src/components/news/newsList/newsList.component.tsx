@@ -3,9 +3,6 @@ import { useEffect } from "react";
 import { NewsBox } from "../newsBox";
 
 export const NewsList = ({ firstChunk, secondChunk }: any) => {
-  useEffect(() => {
-    console.log({ firstChunk, secondChunk }, "TEST");
-  }, [firstChunk, secondChunk]);
   return (
     <Flex gap="45px">
       <Flex flexDirection="column" flex={1}>

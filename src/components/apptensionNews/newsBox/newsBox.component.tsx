@@ -4,19 +4,33 @@ import {
   Flex,
   GridItem,
   Icon,
+  IconButton,
   Img,
   Link,
   Text,
 } from "@chakra-ui/react";
+import { deleteDoc, setDoc } from "firebase/firestore";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useDocumentData } from "react-firebase-hooks/firestore";
 
 import { AiFillClockCircle } from "react-icons/ai";
-import { BsFillBookmarkFill, BsFillRssFill } from "react-icons/bs";
+import { BsBookmark, BsFillBookmarkFill, BsFillRssFill } from "react-icons/bs";
 import { FaClipboard } from "react-icons/fa";
 import { toast } from "react-toastify";
+import {
+  auth,
+  getUsersApptensionBookmarkDoc,
+} from "../../../utils/firebaseConfig";
 import { readingTime } from "../../../utils/readingTime";
 
 export const NewsBox = ({ item }: any) => {
-  /* const date = new Intl.DateTimeFormat("pl-PL").format(new Date(item.pubDate)); */
+  const [user] = useAuthState(auth);
+  const i = item.url.replace(/\//g, "");
+  const usersVideoBookmarkDoc = getUsersApptensionBookmarkDoc(
+    user?.uid || "",
+    i
+  );
+  const [bookmarkData] = useDocumentData(usersVideoBookmarkDoc);
 
   const handleSaveForLater = () => {
     toast.success("Saved for later!", { position: "bottom-center" });
@@ -27,6 +41,26 @@ export const NewsBox = ({ item }: any) => {
   const handleCopyURL = () => {
     navigator.clipboard.writeText(item.url);
     toast.success("URL copied to clipboard!", { position: "bottom-center" });
+  };
+
+  const handleBookmark = () => {
+    if (user) {
+      if (bookmarkData) {
+        deleteDoc(usersVideoBookmarkDoc);
+      } else {
+        console.log(item);
+        setDoc(usersVideoBookmarkDoc, {
+          url: item.url || null,
+          link: item.link || null,
+          title: item.title || null,
+          thumbnail: item.thumbnail || null,
+          image: item.image || null,
+          desc: item.desc || null,
+          userName: item.userName || null,
+          video: item.video || null,
+        });
+      }
+    }
   };
 
   return (
@@ -91,15 +125,12 @@ export const NewsBox = ({ item }: any) => {
             Copy URL
           </Text>
         </Button>
-        <Flex
-          alignItems="center"
-          _hover={{ cursor: "pointer" }}
-          onClick={handleSaveForLater}>
-          <Icon as={BsFillBookmarkFill} fontSize="12px" />
-          <Text fontWeight="semibold" ml="2" fontSize="12px">
-            Save for later
-          </Text>
-        </Flex>
+        <IconButton
+          aria-label="Bookmark"
+          variant="ghost"
+          onClick={handleBookmark}
+          icon={bookmarkData ? <BsFillBookmarkFill /> : <BsBookmark />}
+        />
       </Flex>
     </GridItem>
   );

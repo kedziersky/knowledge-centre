@@ -4,20 +4,36 @@ import {
   Flex,
   GridItem,
   Icon,
+  IconButton,
   Img,
   Link,
   Text,
 } from "@chakra-ui/react";
+import { deleteDoc, setDoc } from "firebase/firestore";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useDocumentData } from "react-firebase-hooks/firestore";
 
 import { AiFillClockCircle } from "react-icons/ai";
-import { BsFillBookmarkFill, BsFillRssFill, BsReddit } from "react-icons/bs";
+import {
+  BsBookmark,
+  BsFillBookmarkFill,
+  BsFillRssFill,
+  BsReddit,
+} from "react-icons/bs";
 import { FaClipboard } from "react-icons/fa";
 import { toast } from "react-toastify";
+import {
+  auth,
+  getUsersMemeBookmarkDoc,
+  getUsersNewsBookmarkDoc,
+} from "../../../utils/firebaseConfig";
 import { readingTime } from "../../../utils/readingTime";
 
 export const NewsBox = ({ item }: any) => {
-  /* const date = new Intl.DateTimeFormat("pl-PL").format(new Date(item.pubDate)); */
-
+  const [user] = useAuthState(auth);
+  const i = item.link.replace(/\//g, "");
+  const usersVideoBookmarkDoc = getUsersMemeBookmarkDoc(user?.uid || "", i);
+  const [bookmarkData] = useDocumentData(usersVideoBookmarkDoc);
   const handleSaveForLater = () => {
     toast.success("Saved for later!", { position: "bottom-center" });
   };
@@ -27,6 +43,23 @@ export const NewsBox = ({ item }: any) => {
   const handleCopyURL = () => {
     navigator.clipboard.writeText(item.link);
     toast.success("URL copied to clipboard!", { position: "bottom-center" });
+  };
+
+  const handleBookmark = () => {
+    if (user) {
+      if (bookmarkData) {
+        deleteDoc(usersVideoBookmarkDoc);
+      } else {
+        console.log(item);
+        setDoc(usersVideoBookmarkDoc, {
+          link: item.link || null,
+          title: item.title || null,
+          creator: item.creator || null,
+          thumbnail: item.thumbnail || null,
+          url: item.url || null,
+        });
+      }
+    }
   };
 
   return (
@@ -76,15 +109,12 @@ export const NewsBox = ({ item }: any) => {
           onClick={handleCopyURL}>
           <Icon as={FaClipboard} mr={1} /> <Text as="span">Copy URL</Text>
         </Button>
-        <Flex
-          alignItems="center"
-          _hover={{ cursor: "pointer" }}
-          onClick={handleSaveForLater}>
-          <Icon as={BsFillBookmarkFill} fontSize="12px" />
-          <Text fontWeight="semibold" ml="2" fontSize="12px">
-            Save for later
-          </Text>
-        </Flex>
+        <IconButton
+          aria-label="Bookmark"
+          variant="ghost"
+          onClick={handleBookmark}
+          icon={bookmarkData ? <BsFillBookmarkFill /> : <BsBookmark />}
+        />
       </Flex>
     </GridItem>
   );

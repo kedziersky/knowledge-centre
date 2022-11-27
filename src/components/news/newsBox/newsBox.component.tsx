@@ -4,22 +4,33 @@ import {
   Flex,
   GridItem,
   Icon,
+  IconButton,
   Img,
   Link,
   Text,
 } from "@chakra-ui/react";
 import { readingTime } from "../../../utils/readingTime";
 import { AiFillClockCircle } from "react-icons/ai";
-import { BsFillBookmarkFill, BsFillRssFill, BsYoutube } from "react-icons/bs";
+import {
+  BsBookmark,
+  BsFillBookmarkFill,
+  BsFillRssFill,
+  BsYoutube,
+} from "react-icons/bs";
 import { FaClipboard } from "react-icons/fa";
 import { toast } from "react-toastify";
+import { deleteDoc, setDoc } from "firebase/firestore";
+import { title } from "process";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth, getUsersNewsBookmarkDoc } from "../../../utils/firebaseConfig";
+import { useDocumentData } from "react-firebase-hooks/firestore";
 
 export const NewsBox = ({ item }: any) => {
+  const [user] = useAuthState(auth);
   const date = new Intl.DateTimeFormat("en-GB").format(new Date(item.pubDate));
-
-  const handleSaveForLater = () => {
-    toast.success("Saved for later!", { position: "bottom-center" });
-  };
+  const i = item.link.replace(/\//g, "");
+  const usersVideoBookmarkDoc = getUsersNewsBookmarkDoc(user?.uid || "", i);
+  const [bookmarkData] = useDocumentData(usersVideoBookmarkDoc);
 
   const thumbnailImg =
     item?.enclosure &&
@@ -38,6 +49,26 @@ export const NewsBox = ({ item }: any) => {
     ytVideo.splice(1, 0, "embed/");
     ytVideo = ytVideo.join("");
     return ytVideo;
+  };
+
+  const handleBookmark = () => {
+    if (user) {
+      if (bookmarkData) {
+        deleteDoc(usersVideoBookmarkDoc);
+      } else {
+        console.log(item);
+        setDoc(usersVideoBookmarkDoc, {
+          link: item.link || null,
+          title: item.title || null,
+          contentSnippet: item.contentSnippet || null,
+          sourceAvatar: item.sourceAvatar || null,
+          source: item.source || null,
+          article: item.article || null,
+          enclosure: item.enclosure || null,
+          pubDate: item.pubDate || null,
+        });
+      }
+    }
   };
 
   const ytVideoUrl = item.feedType === "video" && getYtEmbededUrl();
@@ -136,15 +167,12 @@ export const NewsBox = ({ item }: any) => {
           onClick={handleCopyURL}>
           <Icon as={FaClipboard} mr={1} /> <Text as="span">Copy URL</Text>
         </Button>
-        <Flex
-          alignItems="center"
-          _hover={{ cursor: "pointer" }}
-          onClick={handleSaveForLater}>
-          <Icon as={BsFillBookmarkFill} fontSize="12px" />
-          <Text fontWeight="semibold" ml="2" fontSize="12px">
-            Save for later
-          </Text>
-        </Flex>
+        <IconButton
+          aria-label="Bookmark"
+          variant="ghost"
+          onClick={handleBookmark}
+          icon={bookmarkData ? <BsFillBookmarkFill /> : <BsBookmark />}
+        />
       </Flex>
     </GridItem>
   );
