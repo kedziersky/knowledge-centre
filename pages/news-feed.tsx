@@ -78,7 +78,7 @@ function NewsFeed() {
   );
 
   const renderNewsList = () => {
-    if (status !== "loading" && !firstChunk.length && !secondChunk.length)
+    if (status === "loading" && !firstChunk.length && !secondChunk.length)
       return (
         <Flex width="100%" justifyContent="center">
           <Spinner size="xl" />
@@ -95,8 +95,11 @@ function NewsFeed() {
   };
   return (
     <MainLayout>
-      <Text fontSize="30px" fontWeight="bold" mb="10">
+      <Text fontSize="3xl" fontWeight="bold">
         News Feed
+      </Text>
+      <Text fontSize="xl" mb={10}>
+        See what's new in the world! 🌎
       </Text>
       <FeedFilter
         setType={setType}

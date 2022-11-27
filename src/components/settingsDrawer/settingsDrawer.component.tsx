@@ -6,11 +6,15 @@ import {
   DrawerContent,
   DrawerHeader,
   Flex,
+  Icon,
   Text,
+  Link as ChakraLink,
 } from "@chakra-ui/react";
 import { signOut } from "firebase/auth";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { BsBookmarkFill } from "react-icons/bs";
 import { auth } from "../../utils/firebaseConfig";
 import { Separator } from "../separator";
 
@@ -35,7 +39,7 @@ export const SettingsDrawer = ({ isOpen, onClose }: SettingsDrawerProps) => {
         <DrawerHeader pt="24px" px="24px">
           <DrawerCloseButton />
           <Text fontSize="xl" fontWeight="bold" my="16px">
-            Settings
+            My Profile
           </Text>
           <Separator />
         </DrawerHeader>
@@ -45,9 +49,16 @@ export const SettingsDrawer = ({ isOpen, onClose }: SettingsDrawerProps) => {
             justifyContent="space-between"
             height="100%"
             pb={10}>
-            <Button variant="link" onClick={() => router.push("/bookmarks")}>
+            <ChakraLink
+              href="/bookmarks"
+              as={Link}
+              display="flex"
+              alignItems="center"
+              fontSize="sm"
+              fontWeight="bold">
+              <Icon as={BsBookmarkFill} mr={2} />
               Bookmarks
-            </Button>
+            </ChakraLink>
             <Button onClick={handleLogout}>Log out</Button>
           </Flex>
         </DrawerBody>

@@ -53,7 +53,6 @@ export default async function handler(req: any, res: any) {
       //@ts-ignore
       return new Date(b.isoDate) - new Date(a.isoDate);
     });
-    console.log(data);
 
     res.status(200).json({
       data: paginate(data, ITEMS_PER_PAGE, page),

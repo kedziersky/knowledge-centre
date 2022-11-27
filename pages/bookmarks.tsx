@@ -2,6 +2,7 @@ import { ArrowBackIcon } from "@chakra-ui/icons";
 import {
   Box,
   Button,
+  Flex,
   Grid,
   Tab,
   TabList,
@@ -34,17 +35,17 @@ function VideoBookmarks() {
     getUsersVideoBookmarksCollection(user?.uid || "")
   );
   return (
-    <Box>
+    <Flex mt={8}>
       {loading || !data ? (
         <Splash />
       ) : (
-        <Grid p={20} templateColumns="repeat(2, 1fr)" gap={6}>
+        <Grid templateColumns="repeat(2, 1fr)" gap={6}>
           {data?.map((video) => (
             <VideoThumbnail {...video} />
           ))}
         </Grid>
       )}
-    </Box>
+    </Flex>
   );
 }
 
@@ -54,17 +55,17 @@ function NewsBookmarks() {
     getusersNewsBookmarkCollection(user?.uid || "")
   );
   return (
-    <Box>
+    <Flex mt={8}>
       {loading || !data ? (
         <Splash />
       ) : (
-        <Grid p={20} templateColumns="repeat(2, 1fr)" gap={6}>
+        <Grid templateColumns="repeat(2, 1fr)" gap={6}>
           {data?.map((video) => (
             <NewsBox item={video} />
           ))}
         </Grid>
       )}
-    </Box>
+    </Flex>
   );
 }
 
@@ -74,17 +75,17 @@ function MemesBookmarks() {
     getUsersMemeBookmarkCollection(user?.uid || "")
   );
   return (
-    <Box>
+    <Flex mt={8}>
       {loading || !data ? (
         <Splash />
       ) : (
-        <Grid p={20} templateColumns="repeat(2, 1fr)" gap={6}>
+        <Grid templateColumns="repeat(2, 1fr)" gap={6}>
           {data?.map((video) => (
             <MemeNewsBox item={video} />
           ))}
         </Grid>
       )}
-    </Box>
+    </Flex>
   );
 }
 
@@ -94,17 +95,17 @@ function ApptensionBookmarks() {
     getUsersApptensionBookmarkCollection(user?.uid || "")
   );
   return (
-    <Box>
+    <Flex mt={8}>
       {loading || !data ? (
         <Splash />
       ) : (
-        <Grid p={20} templateColumns="repeat(2, 1fr)" gap={6}>
+        <Grid templateColumns="repeat(2, 1fr)" gap={6}>
           {data?.map((video) => (
             <ApptensionBox item={video} />
           ))}
         </Grid>
       )}
-    </Box>
+    </Flex>
   );
 }
 
@@ -112,15 +113,34 @@ function Bookmarks() {
   const router = useRouter();
 
   const handleBack = () => {
-    router.push("/");
+    if (window.history.state && window.history.state.idx > 0) {
+      router.back();
+    } else {
+      router.push("/");
+    }
   };
   return (
-    <Box p={4}>
-      <Button mb={4} onClick={handleBack}>
-        <ArrowBackIcon />
-        <Text ml={2}>Back</Text>
+    <Box p={5}>
+      <Button
+        mb={4}
+        onClick={handleBack}
+        variant="raw"
+        ml={0}
+        pl={0}
+        display="flex"
+        alignItems="center">
+        <Text>
+          <ArrowBackIcon mr={2} />
+          Back
+        </Text>
       </Button>
-      <Tabs>
+      <Text fontSize="3xl" fontWeight="bold">
+        Bookmarks
+      </Text>
+      <Text fontSize="xl" mb={10}>
+        Check your saved items!
+      </Text>
+      <Tabs variant="soft-rounded" colorScheme="messenger">
         <TabList>
           <Tab>Videos</Tab>
           <Tab>News</Tab>

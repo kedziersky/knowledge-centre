@@ -32,7 +32,7 @@ export const SidebarContent = ({ logoText }: any) => {
   // verifies if routeName is the one active (in browser input)
 
   const activeRoute = (routeName: any) => {
-    const pathName = `/${routeName.split("/")[1]}`;
+    const pathName = `${routeName.split(/[?#]/)[0]}`;
 
     return router.pathname === pathName ? "active" : "";
   };
@@ -75,11 +75,15 @@ export const SidebarContent = ({ logoText }: any) => {
               _focus={{
                 boxShadow: "none",
               }}>
-              <Flex>
-                <Text color={activeColor} my="auto" fontSize="sm">
-                  {prop.name}
-                </Text>
-              </Flex>
+              <Text
+                color={activeColor}
+                my="auto"
+                fontSize="sm"
+                display="flex"
+                alignItems="center">
+                <Icon as={prop.icon} color={activeColor} mr={2} />
+                {prop.name}
+              </Text>
             </Button>
           ) : (
             <Button
@@ -109,11 +113,15 @@ export const SidebarContent = ({ logoText }: any) => {
               _focus={{
                 boxShadow: "none",
               }}>
-              <Flex>
-                <Text color={inactiveColor} my="auto" fontSize="sm">
-                  {prop.name}
-                </Text>
-              </Flex>
+              <Text
+                color={inactiveColor}
+                my="auto"
+                fontSize="sm"
+                display="flex"
+                alignItems="center">
+                <Icon as={prop.icon} color={inactiveColor} mr={2} />
+                {prop.name}
+              </Text>
             </Button>
           )}
         </NavLink>

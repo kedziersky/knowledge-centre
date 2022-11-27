@@ -9,7 +9,7 @@ import { Message } from "./message";
 function ChatForm({ videoId }: any) {
   const [user] = useAuthState(auth);
   const [comment, setComment] = useState("");
-  console.log(user);
+
   const handleSubmit = (e: any) => {
     e.preventDefault();
     addDoc(getVideoChatCollection(videoId), {

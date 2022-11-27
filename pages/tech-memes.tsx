@@ -1,4 +1,4 @@
-import { Text, Spinner, Box } from "@chakra-ui/react";
+import { Text, Spinner, Box, Flex } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useQuery } from "react-query";
@@ -6,6 +6,7 @@ import { NewsList } from "../src/components/memesList";
 import { MainLayout } from "../src/layouts";
 import { fetchFeed } from "../src/services/api/fetchFeed";
 import { fetchMemes } from "../src/services/api/fetchMemes";
+import { withProtected } from "../src/utils/route";
 
 const useMemes = () => {
   const [firstHalf, setFirstHalf] = useState<any>([]);
@@ -33,7 +34,7 @@ const useMemes = () => {
   return [firstHalf, secondHalf, status, setPage] as any;
 };
 
-export default function ApptensionFeed() {
+function ApptensionFeed() {
   const [firstChunk, secondChunk, status, setPage] = useMemes();
 
   const observer = useRef() as any;
@@ -53,7 +54,11 @@ export default function ApptensionFeed() {
 
   const renderNewsList = () => {
     if (status === "loading" && !firstChunk.length && !secondChunk.length)
-      return <Spinner />;
+      return (
+        <Flex width="100%" justifyContent="center">
+          <Spinner size="xl" />
+        </Flex>
+      );
 
     if (!firstChunk.length && !secondChunk.length)
       return (
@@ -65,14 +70,21 @@ export default function ApptensionFeed() {
   };
   return (
     <MainLayout>
-      <Text fontSize="30px" fontWeight="bold" mb="10">
+      <Text fontSize="3xl" fontWeight="bold">
         Memes
+      </Text>
+      <Text fontSize="xl" mb={10}>
+        Take a break and look at some memes! 😂
       </Text>
       {renderNewsList()}
       {status !== "loading" && <Box ref={lastBookElementRef}></Box>}
-      <Box w="100%" justifyContent="center" alignItems="center">
-        <Spinner />
-      </Box>
+      {!!firstChunk.length && !!secondChunk.length && (
+        <Flex w="100%" justifyContent="center" alignItems="center">
+          <Spinner />
+        </Flex>
+      )}
     </MainLayout>
   );
 }
+
+export default withProtected(ApptensionFeed);

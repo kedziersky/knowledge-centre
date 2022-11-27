@@ -1,24 +1,33 @@
 import { MainLayout } from "../../src/layouts";
-import { Spinner, Text } from "@chakra-ui/react";
+import { Flex, Img, Spinner, Text } from "@chakra-ui/react";
 
 import { fetch } from "fetch-opengraph";
 import { useQuery } from "react-query";
 import { fetchApptensionFeed } from "../../src/services/api/fetchApptensionFeed";
 import { NewsList } from "../../src/components/apptensionNews/newsList";
+import { withProtected } from "../../src/utils/route";
+import { FeedFilter } from "../../src/components/apptensionFeedFilter";
+import { useState } from "react";
 
-export default function ApptensionFeed() {
-  const { data, status } = useQuery(["apptensionFeed"], () =>
-    fetchApptensionFeed(0, "asd", "asd")
+function ApptensionFeed() {
+  const [type, setType] = useState("frontend");
+  const { data, status } = useQuery(["apptensionFeed", [type]], () =>
+    fetchApptensionFeed(0, type, "asd")
   );
 
-  if (status === "loading") return <Spinner />;
-  if (!data?.data.length) return null;
   return (
     <MainLayout>
-      <Text fontSize="30px" fontWeight="bold" mb="10">
-        News Feed
+      <Text fontSize="3xl" fontWeight="bold">
+        Apptension Feed
       </Text>
-      <NewsList items={data} />
+      <Text fontSize="xl" mb={10} display="flex" alignItems="center">
+        Share interesting URLs with others in Apptension!
+        <Img src="/apptension_logo.svg" ml={2} width={5} height={5} />
+      </Text>
+      <FeedFilter setType={setType} />
+      <NewsList items={data} status={status} />
     </MainLayout>
   );
 }
+
+export default withProtected(ApptensionFeed);

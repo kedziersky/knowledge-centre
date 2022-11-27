@@ -17,8 +17,11 @@ function KnowledgeShots() {
   );
   return (
     <MainLayout>
-      <Text fontSize="30px" fontWeight="bold" mb="10">
-        Knowledge Shots
+      <Text fontSize="3xl" fontWeight="bold">
+        Knowledge shots
+      </Text>
+      <Text fontSize="xl" mb={10}>
+        Level up your soft skills! 🧠
       </Text>
       {loading || !data ? (
         <Splash />

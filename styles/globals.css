@@ -24,3 +24,10 @@ a {
     background: black;
   }
 }
+
+.scrollbarWrapper {
+  overflow-x: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  padding-bottom: 16px;
+}
