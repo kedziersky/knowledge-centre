@@ -1,17 +1,36 @@
-import { Button, Flex, Icon, Text, useDisclosure } from "@chakra-ui/react";
+import {
+  Button,
+  Flex,
+  FormControl,
+  Icon,
+  Input,
+  Text,
+  useDisclosure,
+} from "@chakra-ui/react";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { IoMdSettings } from "react-icons/io";
 import { ROUTES } from "../../../navigation";
 import { ROUTES_PATHS } from "../../../navigation/routesPaths";
 import { auth } from "../../../utils/firebaseConfig";
+import { FormModal } from "../../formModal";
 import { SettingsDrawer } from "../../settingsDrawer";
+import { useForm } from "react-hook-form";
 
 export const MainNavbar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isModalOpen,
+    onOpen: onModalOpen,
+    onClose: onModalClose,
+  } = useDisclosure();
   const [user] = useAuthState(auth);
-
+  const { register, handleSubmit } = useForm();
+  const handleAddNews = (data: any) => {
+    console.log(data);
+  };
   return (
     <Flex
       position="fixed"
@@ -28,14 +47,10 @@ export const MainNavbar = () => {
       p={4}
       w="100%"
       zIndex="overlay">
-      <Button colorScheme="teal" mr="5">
+      <Button colorScheme="teal" mr="5" variant="raw">
         Add talk - display only for admin
       </Button>
-      <Button
-        colorScheme="teal"
-        mr="5"
-        as={Link}
-        href={ROUTES_PATHS.apptensionFeed.add}>
+      <Button colorScheme="teal" mr="5" onClick={onModalOpen} variant="raw">
         Add news
       </Button>
       <Flex alignItems="center" onClick={onOpen} _hover={{ cursor: "pointer" }}>
@@ -52,7 +67,20 @@ export const MainNavbar = () => {
           Hi, {user?.displayName?.split(" ")[0]}!
         </Text>
       </Flex>
-
+      <FormModal
+        onClose={onModalClose}
+        isOpen={!isModalOpen}
+        title="Add new news!">
+        <FormControl>
+          <form onSubmit={handleSubmit(handleAddNews)}>
+            <label>News URL</label>
+            <Input />
+            <Button colorScheme="blue" type="submit" mt={5}>
+              Add
+            </Button>
+          </form>
+        </FormControl>
+      </FormModal>
       <SettingsDrawer isOpen={isOpen} onClose={onClose} />
     </Flex>
   );
