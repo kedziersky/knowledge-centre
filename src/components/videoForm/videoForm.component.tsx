@@ -62,10 +62,6 @@ export function VideoForm({ onClose, isOpen, video }: any) {
           </Text>
           <Input {...register("title")} mb={2} />
           <Text as="label" fontWeight="bold">
-            Description
-          </Text>
-          <Input {...register("description")} mb={2} />
-          <Text as="label" fontWeight="bold">
             Video ID
           </Text>
           <Input {...register("videoId", { required: true })} mb={2} />
