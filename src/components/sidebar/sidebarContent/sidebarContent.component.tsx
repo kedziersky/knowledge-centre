@@ -9,6 +9,7 @@ import {
   Text,
   Link as ChakraLink,
   useColorModeValue,
+  Icon,
 } from "@chakra-ui/react";
 
 import NavLink from "next/link";
@@ -18,6 +19,7 @@ import { Separator } from "../../separator";
 import React from "react";
 import { useRouter } from "next/router";
 import { ROUTES } from "../../../navigation";
+import { GiBrain } from "react-icons/gi";
 
 // this function creates the links and collapses that appear in the sidebar (left menu)
 
@@ -120,6 +122,7 @@ export const SidebarContent = ({ logoText }: any) => {
   };
 
   const links = <>{createLinks(ROUTES)}</>;
+  const titleColor = useColorModeValue("teal.300", "teal.200");
 
   return (
     <>
@@ -134,8 +137,14 @@ export const SidebarContent = ({ logoText }: any) => {
           fontSize="11px"
           href="/"
           as={NavLink}>
-          <Text fontSize="sm" mt="3px">
-            KNOWLEDGE CENTRE
+          <Text
+            fontSize="xl"
+            mt="3px"
+            color={titleColor}
+            display="flex"
+            alignItems="center">
+            <Icon as={GiBrain} mr={2} />
+            Knowledge Centre
           </Text>
         </ChakraLink>
         <Separator></Separator>

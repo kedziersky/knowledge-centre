@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
 
 import { NewsList } from "../src/components/news/newsList";
-import { Box, Icon, Spinner, Text } from "@chakra-ui/react";
+import { Box, Flex, Icon, Spinner, Text } from "@chakra-ui/react";
 
 import { MainLayout } from "../src/layouts";
 import { fetchFeed } from "../src/services/api/fetchFeed";
@@ -23,26 +23,44 @@ const useNewsFeed = () => {
   useEffect(() => {
     setType(filter as string);
     setFeedType(feedTypeQuery as string);
-  }, [filter, feedType]);
+  }, []);
+
   const { data, status } = useQuery(["feed", [page, type, feedType]], () =>
     fetchFeed(page, type, feedType)
   );
-
+  /* console.log({ data }); */
   useEffect(() => {
     if (data?.data?.length && status !== "loading") {
-      console.log("TRIGGER");
       const half = Math.ceil(data.data.length / 2);
       const f = data.data.slice(0, half);
       const s = data.data.slice(half);
       setFirstHalf((old: any) => [...old, ...f]);
       setSecondHalf((old: any) => [...old, ...s]);
     }
-  }, [data]);
-  return [firstHalf, secondHalf, status, setPage] as any;
+  }, [data?.data, status]);
+  return [
+    firstHalf,
+    secondHalf,
+    status,
+    setPage,
+    setType,
+    setFeedType,
+    setSecondHalf,
+    setFirstHalf,
+  ] as any;
 };
 
 function NewsFeed() {
-  const [firstChunk, secondChunk, status, setPage] = useNewsFeed();
+  const [
+    firstChunk,
+    secondChunk,
+    status,
+    setPage,
+    setType,
+    setFeedType,
+    setSecondHalf,
+    setFirstHalf,
+  ] = useNewsFeed();
 
   const observer = useRef() as any;
   const lastBookElementRef = useCallback(
@@ -60,8 +78,12 @@ function NewsFeed() {
   );
 
   const renderNewsList = () => {
-    if (status === "loading" && !firstChunk.length && !secondChunk.length)
-      return <Spinner />;
+    if (status !== "loading" && !firstChunk.length && !secondChunk.length)
+      return (
+        <Flex width="100%" justifyContent="center">
+          <Spinner size="xl" />
+        </Flex>
+      );
 
     if (!firstChunk.length && !secondChunk.length)
       return (
@@ -73,18 +95,27 @@ function NewsFeed() {
   };
   return (
     <MainLayout>
-      {/* {console.log(page)} */}
       <Text fontSize="30px" fontWeight="bold" mb="10">
         News Feed
       </Text>
-      <FeedFilter />
-      <FeedTypeFilter />
+      <FeedFilter
+        setType={setType}
+        setFirstHalf={setFirstHalf}
+        setSecondHalf={setSecondHalf}
+      />
+      <FeedTypeFilter
+        setFeedType={setFeedType}
+        setFirstHalf={setFirstHalf}
+        setSecondHalf={setSecondHalf}
+      />
 
       {renderNewsList()}
       {status !== "loading" && <Box ref={lastBookElementRef}></Box>}
-      <Box w="100%" justifyContent="center" alignItems="center">
-        <Spinner />
-      </Box>
+      {!!firstChunk.length && !!secondChunk.length && (
+        <Flex w="100%" justifyContent="center" alignItems="center">
+          <Spinner />
+        </Flex>
+      )}
     </MainLayout>
   );
 }
