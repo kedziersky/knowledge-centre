@@ -59,14 +59,11 @@ exports.addToApptensionFeed = functions.firestore
     const feed = snap.data();
     const { userName, url, category } = feed;
 
-    return request.post(
-      "https://hooks.slack.com/services/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",
-      {
-        json: {
-          text: `🚀 ${userName} has added a new feed post to a category ${category}! Here's a link ${url} `,
-        },
-      }
-    );
+    return request.post(process.env.SLACK_WEBHOOK, {
+      json: {
+        text: `🚀 ${userName} has added a new feed post to a category ${category}! Here's a link ${url} `,
+      },
+    });
   });
 
 exports.addToVideoFeed = functions.firestore
@@ -75,12 +72,9 @@ exports.addToVideoFeed = functions.firestore
     const feed = snap.data();
     const { authors, category } = feed;
 
-    return request.post(
-      "https://hooks.slack.com/services/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",
-      {
-        json: {
-          text: `🚀 A new video was added to a category ${category}! Talk was presented by ${authors} `,
-        },
-      }
-    );
+    return request.post(process.env.SLACK_WEBHOOK, {
+      json: {
+        text: `🚀 A new video was added to a category ${category}! Talk was presented by ${authors} `,
+      },
+    });
   });
