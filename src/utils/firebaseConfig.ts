@@ -41,3 +41,5 @@ export const getVideoChatCollection = (videoId: string) =>
 
 export const getUsersVideoBookmarksCollection = (userId: string) =>
   collection(firestore, "users", userId, "videoBookmarks");
+
+export const getApptensionNews = () => collection(firestore, "apptensionFeed");

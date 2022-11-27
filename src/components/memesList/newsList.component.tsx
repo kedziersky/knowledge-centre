@@ -1,5 +1,5 @@
-import { Flex, Grid } from "@chakra-ui/react";
-import { NewsBox } from "../newsBox";
+import { Box, Flex, Grid } from "@chakra-ui/react";
+import { NewsBox } from "./newsBox";
 
 export const NewsList = ({ items }: any) => {
   const half = Math.ceil(items.data.length / 2);

@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { readingTime } from "../../../utils/readingTime";
 import { AiFillClockCircle } from "react-icons/ai";
-import { BsFillBookmarkFill, BsFillRssFill } from "react-icons/bs";
+import { BsFillBookmarkFill, BsFillRssFill, BsYoutube } from "react-icons/bs";
 import { FaClipboard } from "react-icons/fa";
 import { toast } from "react-toastify";
 
@@ -21,37 +21,72 @@ export const NewsBox = ({ item }: any) => {
     toast.success("Saved for later!", { position: "bottom-center" });
   };
 
-  const thumbnail = item.thumbnail && item.thumbnail[0]["$"].url;
-
+  const thumbnailImg =
+    item?.enclosure &&
+    item?.enclosure.type.split("/")[0] === "image" &&
+    item.enclosure.url;
+  const thumbnailVideo =
+    item?.enclosure &&
+    item?.enclosure.type.split("/")[0] === "video" &&
+    item.enclosure.url;
   const handleCopyURL = () => {
     navigator.clipboard.writeText(item.link);
     toast.success("URL copied to clipboard!", { position: "bottom-center" });
   };
+  const getYtEmbededUrl = () => {
+    let ytVideo = item.link.split("watch?v=");
+    ytVideo.splice(1, 0, "embed/");
+    ytVideo = ytVideo.join("");
+    return ytVideo;
+  };
 
+  const ytVideoUrl = item.feedType === "video" && getYtEmbededUrl();
   return (
-    <GridItem bg="gray.700" p="5" borderRadius="lg" height={"fit-content"}>
+    <GridItem bg="gray.700" borderRadius="lg" height={"fit-content"} mb="45px">
       <Link
         href={item.link}
         rel="norefferer"
         target="_blank"
+        display="block"
+        px={5}
+        pt={5}
         _hover={{ textDecoration: "underline" }}>
-        <Text fontSize="18px" fontWeight="bold" mb="3">
+        <Text fontSize="20px" fontWeight="bold" mb="3">
           {item.title}
         </Text>
-        {thumbnail && <Img src={thumbnail} w="100%" mb="3" />}
       </Link>
-      <Box
-        fontSize="14px"
-        dangerouslySetInnerHTML={{ __html: item.contentSnippet }}
-        noOfLines={4}
-      />
+      {thumbnailImg && <Img src={thumbnailImg} w="100%" />}
+      {!item?.video && thumbnailVideo && (
+        <Box as="iframe" width="100%" height="315px" src={thumbnailVideo} />
+      )}
 
-      <Flex mt="8" justifyContent="space-between">
+      {ytVideoUrl && (
+        <Box as="iframe" width="100%" height="315px" src={ytVideoUrl} />
+      )}
+      {item.contentSnippet && (
+        <Box
+          fontSize="14px"
+          px={5}
+          mt={5}
+          dangerouslySetInnerHTML={{ __html: item.contentSnippet }}
+          noOfLines={4}
+        />
+      )}
+
+      <Flex mt={3} pb={5} px={5} justifyContent="space-between">
         <Flex alignItems="center">
           <Link href={item.sourceUrl}>
             <Flex alignItems="center">
-              {!item.sourceAvatar ? (
+              {!item.sourceAvatar && !ytVideoUrl ? (
                 <Icon as={BsFillRssFill} width={3} height={3} mr={1} />
+              ) : ytVideoUrl ? (
+                <Icon
+                  as={BsYoutube}
+                  width={4}
+                  height={4}
+                  mr={1}
+                  fill="red.500"
+                />
               ) : (
                 <Img src={item.sourceAvatar} width={4} height={4} mr={1} />
               )}

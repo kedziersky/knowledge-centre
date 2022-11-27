@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
 
 import { NewsList } from "../src/components/news/newsList";
-import { Spinner, Text } from "@chakra-ui/react";
+import { Box, Icon, Spinner, Text } from "@chakra-ui/react";
 
 import { MainLayout } from "../src/layouts";
 import { fetchFeed } from "../src/services/api/fetchFeed";
@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { FeedTypeFilter } from "../src/components/feedTypeFilter";
 
+import { Pagination } from "../src/components/pagination/pagination.component";
 function NewsFeed() {
   const [type, setType] = useState("frontend");
   const [feedType, setFeedType] = useState("article");
@@ -40,12 +41,17 @@ function NewsFeed() {
   };
   return (
     <MainLayout>
+      {console.log(page)}
       <Text fontSize="30px" fontWeight="bold" mb="10">
         News Feed
       </Text>
       <FeedFilter />
       <FeedTypeFilter />
       {renderNewsList()}
+
+      {data?.pageCount > 1 && (
+        <Pagination pageCount={data.pageCount} setPage={setPage} />
+      )}
     </MainLayout>
   );
 }
