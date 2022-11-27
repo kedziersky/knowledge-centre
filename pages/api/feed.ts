@@ -43,6 +43,11 @@ const blogFeed = [
     feedType: "article",
   },
   {
+    url: "https://www.blog.pythonlibrary.org/feed/",
+    type: "backend",
+    feedType: "article",
+  },
+  {
     url: "https://testguild.com/feed/",
     type: "qa",
     feedType: "article",
