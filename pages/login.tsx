@@ -15,14 +15,16 @@ import { auth } from "../src/utils/firebaseConfig";
 
 function Login() {
   const provider = new GoogleAuthProvider();
+  provider.setCustomParameters({
+    hd: "apptension.com",
+  });
   const [_, loading] = useAuthState(auth);
   const titleColor = useColorModeValue("teal.300", "teal.200");
   const textColor = useColorModeValue("gray.400", "white");
 
-  const login = async () => {
+  const handleGoogleSignIn = async () => {
     await signInWithPopup(auth, provider);
   };
-
   return (
     <Flex position="relative" mb="40px">
       <Flex
@@ -56,7 +58,7 @@ function Login() {
               Enter your email and password to sign in
             </Text>
             <Button
-              onClick={login}
+              onClick={handleGoogleSignIn}
               isLoading={loading}
               disabled={loading}
               fontSize="10px"
