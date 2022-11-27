@@ -7,12 +7,13 @@ import {
   Heading,
   Text,
   useColorModeValue,
+  Icon,
 } from "@chakra-ui/react";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { withPublic } from "../src/utils/route";
 import { auth } from "../src/utils/firebaseConfig";
-
+import { GiBrain } from "react-icons/gi";
 function Login() {
   const provider = new GoogleAuthProvider();
   provider.setCustomParameters({
@@ -49,17 +50,16 @@ function Login() {
             background="transparent"
             p="48px"
             mt={{ md: "150px", lg: "80px" }}>
-            <Heading color={titleColor} fontSize="32px" mb="10px">
+            <Heading
+              color={titleColor}
+              fontSize="32px"
+              mb="10px"
+              display="flex"
+              alignItems="center">
+              <Icon as={GiBrain} mr={2} />
               Knowledge Centre
             </Heading>
-            <Text
-              mb="36px"
-              ms="4px"
-              color={textColor}
-              fontWeight="bold"
-              fontSize="14px">
-              Enter your email and password to sign in
-            </Text>
+
             <Button
               onClick={handleGoogleSignIn}
               isLoading={loading}
