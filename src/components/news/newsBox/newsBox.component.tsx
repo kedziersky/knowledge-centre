@@ -15,7 +15,7 @@ import { FaClipboard } from "react-icons/fa";
 import { toast } from "react-toastify";
 
 export const NewsBox = ({ item }: any) => {
-  const date = new Intl.DateTimeFormat("pl-PL").format(new Date(item.pubDate));
+  const date = new Intl.DateTimeFormat("en-GB").format(new Date(item.pubDate));
 
   const handleSaveForLater = () => {
     toast.success("Saved for later!", { position: "bottom-center" });

@@ -2,13 +2,22 @@ import { Button } from "@chakra-ui/react";
 
 import { useRouter } from "next/router";
 
-export const FilterButton = ({ name, filterName }: any) => {
+export const FilterButton = ({
+  name,
+  filterName,
+  setFeedType,
+  setSecondHalf,
+  setFirstHalf,
+}: any) => {
   const router = useRouter();
 
   const { filter, feedType } = router.query;
 
   const isActive = feedType === filterName;
   const handleButtonClick = () => {
+    setSecondHalf([]);
+    setFirstHalf([]);
+    setFeedType(filterName);
     router.push(
       {
         pathname: "/news-feed",
