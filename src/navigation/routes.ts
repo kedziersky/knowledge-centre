@@ -30,4 +30,10 @@ export const ROUTES = [
     component: () => null,
     layout: "/",
   },
+  {
+    path: "/tech-memes",
+    name: "Tech Memes",
+    component: () => null,
+    layout: "/",
+  },
 ];

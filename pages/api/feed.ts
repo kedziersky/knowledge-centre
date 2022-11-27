@@ -123,6 +123,7 @@ export default async function handler(req: any, res: any) {
         const newObj = {
           ...el,
           type: item.type,
+          feedType: item.feedType,
           source: feed.title,
           sourceUrl: feed.link,
           sourceAvatar: feed.image?.url,
