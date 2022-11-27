@@ -54,7 +54,7 @@ exports.likeVideo = functions.firestore
   });
 
 exports.addToApptensionFeed = functions.firestore
-  .document("/apptensionFeed")
+  .document("/apptensionFeed/{feedId}")
   .onCreate(async (snap, context) => {
     const feed = snap.data();
     const { userName, url, category } = feed;
@@ -67,7 +67,7 @@ exports.addToApptensionFeed = functions.firestore
   });
 
 exports.addToVideoFeed = functions.firestore
-  .document("/video")
+  .document("/video/{videoId}")
   .onCreate(async (snap, context) => {
     const feed = snap.data();
     const { authors, category } = feed;
