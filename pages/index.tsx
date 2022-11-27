@@ -40,10 +40,10 @@ function Home() {
           <Spinner />
         ) : (
           <Box>
-            <Text fontSize="30px" fontWeight="bold" mb="10">
+            <Text fontSize="26" fontWeight="bold" mb="3">
               Dev Talks
             </Text>
-            <Flex overflow="scroll">
+            <Flex className="scrollbarWrapper">
               {devTalks.map((d) => (
                 <VideoThumbnail {...d} mr={10} />
               ))}
@@ -56,10 +56,10 @@ function Home() {
           <Spinner />
         ) : (
           <Box mt={10}>
-            <Text fontSize="30px" fontWeight="bold" mb="10">
+            <Text fontSize="26" fontWeight="bold" mb="3">
               Knowledge Shots
             </Text>
-            <Flex overflow="scroll">
+            <Flex className="scrollbarWrapper">
               {knowledgeData.map((d) => (
                 <VideoThumbnail {...d} mr={10} />
               ))}
@@ -72,10 +72,10 @@ function Home() {
           <Spinner />
         ) : (
           <Box mt={10}>
-            <Text fontSize="30px" fontWeight="bold" mb="10">
+            <Text fontSize="26" fontWeight="bold" mb="3">
               Coffee Breaks
             </Text>
-            <Flex overflow="scroll">
+            <Flex className="scrollbarWrapper">
               {coffeeData.map((d) => (
                 <VideoThumbnail {...d} mr={10} />
               ))}
