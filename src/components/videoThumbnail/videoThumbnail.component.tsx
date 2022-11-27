@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Flex,
   IconButton,
   Text,
@@ -14,6 +15,7 @@ import {
   getThumbnailRef,
   getUsersLikesDoc,
   getUsersVideoBookmarksDoc,
+  videoLikesDoc,
 } from "../../utils/firebaseConfig";
 import Link from "next/link";
 import { doc, setDoc } from "firebase/firestore";
@@ -22,11 +24,13 @@ import { useDocumentData } from "react-firebase-hooks/firestore";
 
 export function VideoThumbnail({ videoId, author, title }: any) {
   const [user] = useAuthState(auth);
+  const likesDoc = videoLikesDoc(videoId);
   const usersLikesDoc = getUsersLikesDoc(user?.uid || "", videoId);
   const usersVideoBookmarkDoc = getUsersVideoBookmarksDoc(
     user?.uid || "",
     videoId
   );
+  const [likesData] = useDocumentData(likesDoc);
   const [likeData] = useDocumentData(usersLikesDoc);
   const [bookmarkData] = useDocumentData(usersVideoBookmarkDoc);
   const [url] = useDownloadURL(getThumbnailRef(videoId));
@@ -80,13 +84,18 @@ export function VideoThumbnail({ videoId, author, title }: any) {
           </Text>
         </Flex>
         <Flex justifyContent="flex-end" alignItems="center" m="4">
-          <IconButton
-            aria-label="Like"
-            variant="ghost"
-            icon={likeData?.like ? <AiFillHeart /> : <AiOutlineHeart />}
-            mr="2"
-            onClick={handleLike}
-          />
+          <Flex alignItems="center">
+            <Button
+              aria-label="Like"
+              variant="ghost"
+              mr="2"
+              onClick={handleLike}>
+              <Text fontWeight="bold" fontSize="small" mr="2">
+                {likesData?.likes}
+              </Text>
+              {likeData?.like ? <AiFillHeart /> : <AiOutlineHeart />}
+            </Button>
+          </Flex>
           <IconButton
             aria-label="Bookmark"
             variant="ghost"

@@ -27,3 +27,5 @@ export const getUsersLikesDoc = (userId: string, videoId: string) =>
 
 export const getUsersVideoBookmarksDoc = (userId: string, videoId: string) =>
   doc(firestore, "users", userId, "videoBookmarks", videoId);
+export const videoLikesDoc = (videoId: string) =>
+  doc(firestore, "likes", videoId);

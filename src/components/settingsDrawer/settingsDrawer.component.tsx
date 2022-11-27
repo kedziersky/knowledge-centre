@@ -10,6 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { signOut } from "firebase/auth";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import { auth } from "../../utils/firebaseConfig";
 import { Separator } from "../separator";
 
@@ -23,6 +24,7 @@ export const SettingsDrawer = ({ isOpen, onClose }: SettingsDrawerProps) => {
   const handleLogout = () => {
     signOut(auth);
   };
+  if (!isOpen) return null;
   return (
     <Drawer
       isOpen={isOpen}
@@ -46,9 +48,7 @@ export const SettingsDrawer = ({ isOpen, onClose }: SettingsDrawerProps) => {
             <Button variant="link" onClick={() => router.push("/bookmarks")}>
               Bookmarks
             </Button>
-            <Button colorScheme="red" onClick={handleLogout}>
-              Log out
-            </Button>
+            <Button onClick={handleLogout}>Log out</Button>
           </Flex>
         </DrawerBody>
       </DrawerContent>
