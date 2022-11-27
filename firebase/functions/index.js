@@ -1,5 +1,6 @@
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
+const request = require("request");
 const FieldValue = require("firebase-admin").firestore.FieldValue;
 
 admin.initializeApp();
@@ -50,4 +51,36 @@ exports.likeVideo = functions.firestore
           { merge: true }
         );
     }
+  });
+
+exports.addToApptensionFeed = functions.firestore
+  .document("/apptensionFeed")
+  .onCreate(async (snap, context) => {
+    const feed = snap.data();
+    const { userName, url, category } = feed;
+
+    return request.post(
+      "https://hooks.slack.com/services/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",
+      {
+        json: {
+          text: `🚀 ${userName} has added a new feed post to a category ${category}! Here's a link ${url} `,
+        },
+      }
+    );
+  });
+
+exports.addToVideoFeed = functions.firestore
+  .document("/video")
+  .onCreate(async (snap, context) => {
+    const feed = snap.data();
+    const { authors, category } = feed;
+
+    return request.post(
+      "https://hooks.slack.com/services/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",
+      {
+        json: {
+          text: `🚀 A new video was added to a category ${category}! Talk was presented by ${authors} `,
+        },
+      }
+    );
   });
