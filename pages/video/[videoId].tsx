@@ -10,6 +10,8 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { Chat } from "../../src/components/chat/chat.component";
+import { Notes } from "../../src/components/notes";
 import { withProtected } from "../../src/utils/route";
 
 function Video() {
@@ -28,12 +30,7 @@ function Video() {
             <ArrowBackIcon />
             <Text ml={2}>Back</Text>
           </Button>
-          <Input placeholder="Comment..." />
-          <Box mt={4}>
-            <Box>
-              <Text>LOREM XD</Text>
-            </Box>
-          </Box>
+          <Chat videoId={videoId} />
         </Box>
         <Box width="100%">
           <Box position="relative" width="100%" height="calc(100% - 250px)">
@@ -45,13 +42,7 @@ function Video() {
               allow="autoplay"
             />
           </Box>
-          <Box height={250} width="100%" p={4} position="relative">
-            <Flex justifyContent="space-between" alignItems="center" mb={4}>
-              <Text>Notes</Text>
-              <Button colorScheme="teal">Save</Button>
-            </Flex>
-            <Textarea placeholder="Add notes..." />
-          </Box>
+          <Notes videoId={videoId} />
         </Box>
       </Flex>
     </Box>

@@ -29,3 +29,15 @@ export const getUsersVideoBookmarksDoc = (userId: string, videoId: string) =>
   doc(firestore, "users", userId, "videoBookmarks", videoId);
 export const videoLikesDoc = (videoId: string) =>
   doc(firestore, "likes", videoId);
+
+export const getVideoDoc = (videoId: string) =>
+  doc(firestore, "video", videoId);
+
+export const getUsersVideoDoc = (userId: string, videoId: string) =>
+  doc(firestore, "users", userId, "video", videoId);
+
+export const getVideoChatCollection = (videoId: string) =>
+  collection(firestore, "video", videoId, "chat");
+
+export const getUsersVideoBookmarksCollection = (userId: string) =>
+  collection(firestore, "users", userId, "videoBookmarks");

@@ -16,6 +16,7 @@ import { auth } from "../../../utils/firebaseConfig";
 import { FormModal } from "../../formModal";
 import { SettingsDrawer } from "../../settingsDrawer";
 import { useForm } from "react-hook-form";
+import { VideoForm } from "../../videoForm";
 
 export const MainNavbar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -23,6 +24,11 @@ export const MainNavbar = () => {
     isOpen: isModalOpen,
     onOpen: onModalOpen,
     onClose: onModalClose,
+  } = useDisclosure();
+  const {
+    isOpen: isVideoModalOpen,
+    onOpen: onVideoModalOpen,
+    onClose: onVideoModalClose,
   } = useDisclosure();
   const [user] = useAuthState(auth);
   const { register, handleSubmit } = useForm();
@@ -48,9 +54,8 @@ export const MainNavbar = () => {
       <Button
         colorScheme="teal"
         mr="5"
-        as={Link}
-        variant="raw"
-        href={ROUTES_PATHS.apptensionFeed.add}>
+        onClick={onVideoModalOpen}
+        variant="raw">
         Add talk - display only for admin
       </Button>
       <Button colorScheme="teal" mr="5" onClick={onModalOpen} variant="raw">
@@ -86,6 +91,7 @@ export const MainNavbar = () => {
           </form>
         </FormControl>
       </FormModal>
+      <VideoForm onClose={onVideoModalClose} isOpen={isVideoModalOpen} />
       <SettingsDrawer isOpen={isOpen} onClose={onClose} />
     </Flex>
   );

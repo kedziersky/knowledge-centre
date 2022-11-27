@@ -7,7 +7,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
-import { BsBookmark, BsBookmarkFill, BsFillBookmarkFill } from "react-icons/bs";
+import { BsBookmark, BsFillBookmarkFill } from "react-icons/bs";
 import Image from "next/image";
 import { useDownloadURL } from "react-firebase-hooks/storage";
 import {
@@ -18,11 +18,11 @@ import {
   videoLikesDoc,
 } from "../../utils/firebaseConfig";
 import Link from "next/link";
-import { doc, setDoc } from "firebase/firestore";
+import { deleteDoc, setDoc } from "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 
-export function VideoThumbnail({ videoId, author, title }: any) {
+export function VideoThumbnail({ videoId, authors, title }: any) {
   const [user] = useAuthState(auth);
   const likesDoc = videoLikesDoc(videoId);
   const usersLikesDoc = getUsersLikesDoc(user?.uid || "", videoId);
@@ -46,9 +46,15 @@ export function VideoThumbnail({ videoId, author, title }: any) {
 
   const handleBookmark = () => {
     if (user) {
-      setDoc(usersVideoBookmarkDoc, {
-        bookmark: bookmarkData?.bookmark ? false : true,
-      });
+      if (bookmarkData) {
+        deleteDoc(usersVideoBookmarkDoc);
+      } else {
+        setDoc(usersVideoBookmarkDoc, {
+          videoId,
+          authors,
+          title,
+        });
+      }
     }
   };
 
@@ -80,7 +86,7 @@ export function VideoThumbnail({ videoId, author, title }: any) {
       <Flex justifyContent="space-between" alignItems="center">
         <Flex ml={4}>
           <Text fontWeight="bold" fontSize="sm">
-            {author}
+            {authors}
           </Text>
         </Flex>
         <Flex justifyContent="flex-end" alignItems="center" m="4">
@@ -100,9 +106,7 @@ export function VideoThumbnail({ videoId, author, title }: any) {
             aria-label="Bookmark"
             variant="ghost"
             onClick={handleBookmark}
-            icon={
-              bookmarkData?.bookmark ? <BsFillBookmarkFill /> : <BsBookmark />
-            }
+            icon={bookmarkData ? <BsFillBookmarkFill /> : <BsBookmark />}
           />
         </Flex>
       </Flex>
