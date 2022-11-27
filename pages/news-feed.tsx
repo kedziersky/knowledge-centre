@@ -78,7 +78,7 @@ function NewsFeed() {
   );
 
   const renderNewsList = () => {
-    if (status !== "loading" && !firstChunk.length && !secondChunk.length)
+    if (status === "loading" && !firstChunk.length && !secondChunk.length)
       return (
         <Flex width="100%" justifyContent="center">
           <Spinner size="xl" />
