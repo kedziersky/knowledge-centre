@@ -1,18 +1,22 @@
-import { Box, Input, Text } from "@chakra-ui/react";
+import { Box, Input } from "@chakra-ui/react";
 import { addDoc, orderBy, query, serverTimestamp } from "firebase/firestore";
 import { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { auth, getVideoChatCollection } from "../../utils/firebaseConfig";
+import { Message } from "./message";
 
 function ChatForm({ videoId }: any) {
   const [user] = useAuthState(auth);
   const [comment, setComment] = useState("");
+  console.log(user);
   const handleSubmit = (e: any) => {
     e.preventDefault();
     addDoc(getVideoChatCollection(videoId), {
       comment,
-      author: user?.email,
+      author: user?.displayName,
+      avatar: user?.photoURL,
+      userId: user?.uid,
       createdAt: serverTimestamp(),
     });
     setComment("");
@@ -20,9 +24,11 @@ function ChatForm({ videoId }: any) {
   return (
     <form onSubmit={handleSubmit}>
       <Input
+        borderRadius="3xl"
+        variant="filled"
         value={comment}
         onChange={(e) => setComment(e.target.value)}
-        placeholder="Comment..."
+        placeholder="Write a comment..."
         name="comment"
       />
     </form>
@@ -33,14 +39,14 @@ export function Chat({ videoId }: any) {
   const [data] = useCollectionData(
     query(getVideoChatCollection(videoId), orderBy("createdAt", "desc"))
   );
+  const [user] = useAuthState(auth);
+
   return (
     <Box>
       <ChatForm videoId={videoId} />
-      <Box mt={4}>
+      <Box mt={4} overflowY="auto" h="100%" maxH="calc(100vh - 132px)" pr={2}>
         {data?.map((e) => (
-          <Box>
-            <Text>{e.comment}</Text>
-          </Box>
+          <Message item={e} userId={user?.uid} />
         ))}
       </Box>
     </Box>

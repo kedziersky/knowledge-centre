@@ -1,17 +1,10 @@
 import { ArrowBackIcon } from "@chakra-ui/icons";
-import {
-  Box,
-  Button,
-  calc,
-  Flex,
-  Input,
-  Text,
-  Textarea,
-} from "@chakra-ui/react";
+import { Box, Button, Flex, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+
 import { Chat } from "../../src/components/chat/chat.component";
 import { Notes } from "../../src/components/notes";
+import { VideoInfo } from "../../src/components/videoInfo";
 import { withProtected } from "../../src/utils/route";
 
 function Video() {
@@ -19,33 +12,54 @@ function Video() {
   const { videoId } = router.query;
 
   const handleBack = () => {
-    router.push("/");
+    if (window.history.state && window.history.state.idx > 0) {
+      router.back();
+    } else {
+      router.push("/");
+    }
   };
 
   return (
-    <Box width="100vw" height="100vh">
-      <Flex height="100%">
-        <Box width={350} height={"100%"} p={4}>
-          <Button mb={4} onClick={handleBack}>
-            <ArrowBackIcon />
-            <Text ml={2}>Back</Text>
+    <Flex h="100vh" flexWrap="wrap">
+      <Box flex={1} height={"100%"} p={4} py={3}>
+        <Button mb={4} onClick={handleBack} variant="raw" pl={0} mt={2}>
+          <ArrowBackIcon />
+          <Text ml={2}>Back</Text>
+        </Button>
+
+        <Chat videoId={videoId} />
+      </Box>
+      <Box flex={3}>
+        <Box
+          position="relative"
+          width="100%"
+          overflow="hidden"
+          paddingTop="56.25%">
+          <Box
+            as="iframe"
+            src={`https://drive.google.com/file/d/${videoId}/preview`}
+            id="test"
+            top={0}
+            left={0}
+            bottom={0}
+            overflow="hidden"
+            right={0}
+            position="absolute"
+            width="100%"
+            height="100%"
+            allow="autoplay"
+          />
+        </Box>
+        <VideoInfo videoId={videoId} />
+        <Flex p={4} mb={5} pt={2}>
+          <Button colorScheme="blue" marginRight={3}>
+            Edit
           </Button>
-          <Chat videoId={videoId} />
-        </Box>
-        <Box width="100%">
-          <Box position="relative" width="100%" height="calc(100% - 250px)">
-            <iframe
-              src={`https://drive.google.com/file/d/${videoId}/preview`}
-              width="100%"
-              id="test"
-              height="100%"
-              allow="autoplay"
-            />
-          </Box>
-          <Notes videoId={videoId} />
-        </Box>
-      </Flex>
-    </Box>
+          <Button colorScheme="red">Delete</Button>
+        </Flex>
+        <Notes videoId={videoId} />
+      </Box>
+    </Flex>
   );
 }
 
