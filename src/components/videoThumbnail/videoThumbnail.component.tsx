@@ -22,7 +22,7 @@ import { deleteDoc, setDoc } from "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 
-export function VideoThumbnail({ videoId, authors, title }: any) {
+export function VideoThumbnail({ videoId, authors, title, ...props }: any) {
   const [user] = useAuthState(auth);
   const likesDoc = videoLikesDoc(videoId);
   const usersLikesDoc = getUsersLikesDoc(user?.uid || "", videoId);
@@ -62,10 +62,12 @@ export function VideoThumbnail({ videoId, authors, title }: any) {
   return (
     <Box
       width={500}
+      minW={500}
       bg={activeBg}
       borderRadius={16}
       overflow="hidden"
       position="relative"
+      {...props}
       shadow="md">
       <Link href={`/video/${videoId}`}>
         <Image src={url} alt="video thumbnail" width={500} height={500} />
@@ -97,7 +99,7 @@ export function VideoThumbnail({ videoId, authors, title }: any) {
               mr="2"
               onClick={handleLike}>
               <Text fontWeight="bold" fontSize="small" mr="2">
-                {likesData?.likes}
+                {likesData?.likes || 0}
               </Text>
               {likeData?.like ? <AiFillHeart /> : <AiOutlineHeart />}
             </Button>

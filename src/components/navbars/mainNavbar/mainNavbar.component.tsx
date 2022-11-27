@@ -1,25 +1,14 @@
-import {
-  Button,
-  Flex,
-  FormControl,
-  Input,
-  Text,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { Button, Flex, Text, useDisclosure } from "@chakra-ui/react";
 import Image from "next/image";
 
 import { useAuthState } from "react-firebase-hooks/auth";
-import { ROUTES_PATHS } from "../../../navigation/routesPaths";
 
-import { FormModal } from "../../formModal";
 import { SettingsDrawer } from "../../settingsDrawer";
-import { useForm } from "react-hook-form";
 import { VideoForm } from "../../videoForm";
 
-import { auth, getApptensionNews } from "../../../utils/firebaseConfig";
+import { auth } from "../../../utils/firebaseConfig";
 
-import { addDoc, doc, setDoc } from "firebase/firestore";
-import { toast } from "react-toastify";
+import { NewsForm } from "../../newsForm";
 
 export const MainNavbar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -34,25 +23,7 @@ export const MainNavbar = () => {
     onClose: onVideoModalClose,
   } = useDisclosure();
   const [user] = useAuthState(auth);
-  const { register, handleSubmit } = useForm();
-  const apptensionFeedDoc = getApptensionNews();
-  const handleAddNews = async (data: any) => {
-    console.log(data, user);
 
-    if (user) {
-      try {
-        await addDoc(apptensionFeedDoc, {
-          userId: user.uid,
-          userName: user.displayName,
-          url: data.url,
-        });
-        toast.success("News added!", { position: "bottom-center" });
-        onModalClose();
-      } catch (e) {
-        console.log(e);
-      }
-    }
-  };
   return (
     <Flex
       transitionDelay="0s, 0s, 0s, 0s"
@@ -94,27 +65,7 @@ export const MainNavbar = () => {
           </Text>
         </Flex>
       </Button>
-      <FormModal
-        onClose={onModalClose}
-        isOpen={isModalOpen}
-        title="Add new news!">
-        <FormControl>
-          <form onSubmit={handleSubmit(handleAddNews)}>
-            <Text as="label" fontWeight="bold">
-              News URL
-            </Text>
-            <Input {...register("url")} />
-            <Button
-              colorScheme="blue"
-              type="submit"
-              mt={5}
-              ml="auto"
-              display="flex">
-              Add
-            </Button>
-          </form>
-        </FormControl>
-      </FormModal>
+      <NewsForm isOpen={isModalOpen} onClose={onModalClose} />
       <VideoForm onClose={onVideoModalClose} isOpen={isVideoModalOpen} />
       <SettingsDrawer isOpen={isOpen} onClose={onClose} />
     </Flex>
