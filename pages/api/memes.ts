@@ -46,7 +46,7 @@ export default async function handler(req: any, res: any) {
           sourceUrl: feed.link,
           thumbnail: el.thumbnail?.$,
         };
-        data.push(newObj);
+        el.thumbnail?.$ && data.push(newObj);
       });
     }
     data.sort((a: any, b: any) => {

@@ -39,6 +39,7 @@
     "react-tagsinput": "3.19.0",
     "react-toastify": "^9.1.1",
     "rss-parser": "^3.12.0",
+    "sass": "^1.56.1",
     "stylis": "^4.0.13",
     "stylis-plugin-rtl": "^2.1.1",
     "typescript": "4.9.3"
@@ -55,6 +56,7 @@
     "@fontsource/raleway": "^4.5.0",
     "@fontsource/roboto": "^4.5.8",
     "@microlink/react": "^5.5.11",
+    "react-paginate": "^8.1.4",
     "styled-components": "^5.3.6"
   }
 }

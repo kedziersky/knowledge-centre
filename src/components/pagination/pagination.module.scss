@@ -1,0 +1,44 @@
+.paginationWrapper {
+  ul {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    list-style-type: none;
+    padding-inline-start: 0;
+
+    li {
+      font-weight: bold;
+      cursor: pointer;
+      position: relative;
+
+      &:not(:first-of-type) {
+        margin-left: 1rem;
+      }
+      a {
+        color: var(--primary-color);
+      }
+    }
+    .active {
+      &:after {
+        content: "";
+        position: absolute;
+        bottom: -3px;
+        z-index: -1;
+        left: 0;
+        height: 3px;
+        background: var(--secondary-color);
+        animation: underline 0.15s ease-in-out;
+        width: 100%;
+      }
+    }
+    .previous,
+    .next {
+      color: var(--primary-color);
+      svg {
+        color: var(--primary-color);
+        width: 12px;
+        height: 10px;
+      }
+    }
+  }
+}
