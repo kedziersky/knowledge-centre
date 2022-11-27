@@ -1,7 +1,17 @@
-import { Box, Flex, GridItem, Icon, Img, Link, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  GridItem,
+  Icon,
+  Img,
+  Link,
+  Text,
+} from "@chakra-ui/react";
 import { readingTime } from "../../../utils/readingTime";
 import { AiFillClockCircle } from "react-icons/ai";
 import { BsFillBookmarkFill, BsFillRssFill } from "react-icons/bs";
+import { FaClipboard } from "react-icons/fa";
 import { toast } from "react-toastify";
 
 export const NewsBox = ({ item }: any) => {
@@ -12,6 +22,11 @@ export const NewsBox = ({ item }: any) => {
   };
 
   const thumbnail = item.thumbnail && item.thumbnail[0]["$"].url;
+
+  const handleCopyURL = () => {
+    navigator.clipboard.writeText(item.link);
+    toast.success("URL copied to clipboard!", { position: "bottom-center" });
+  };
 
   return (
     <GridItem bg="gray.700" p="5" borderRadius="lg" height={"fit-content"}>
@@ -75,6 +90,16 @@ export const NewsBox = ({ item }: any) => {
             </Text>
           </Flex>
         )}
+
+        <Button
+          variant="raw"
+          fontSize="13px"
+          fontWeight="semibold"
+          alignItems="center"
+          display="flex"
+          onClick={handleCopyURL}>
+          <Icon as={FaClipboard} mr={1} /> <Text as="span">Copy URL</Text>
+        </Button>
         <Flex
           alignItems="center"
           _hover={{ cursor: "pointer" }}
