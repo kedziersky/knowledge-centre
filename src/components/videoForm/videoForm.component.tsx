@@ -77,14 +77,17 @@ export function VideoForm({ onClose, isOpen, video }: any) {
             <option value="knowledge-shots">Knowledge Shots</option>
             <option value="coffee-breaks">Coffee Breaks</option>
           </Select>
-          <Button
-            colorScheme="blue"
-            type="submit"
-            mt={5}
-            disabled={loading}
-            isLoading={loading}>
-            {video ? "Edit" : "Add"}
-          </Button>
+          <Flex>
+            <Button
+              colorScheme="blue"
+              type="submit"
+              mt={5}
+              disabled={loading}
+              ml="auto"
+              isLoading={loading}>
+              {video ? "Edit" : "Add"}
+            </Button>
+          </Flex>
         </form>
       </FormControl>
     </FormModal>

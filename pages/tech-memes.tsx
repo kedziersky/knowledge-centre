@@ -1,4 +1,4 @@
-import { Text, Spinner, Box } from "@chakra-ui/react";
+import { Text, Spinner, Box, Flex } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useQuery } from "react-query";
@@ -54,7 +54,11 @@ function ApptensionFeed() {
 
   const renderNewsList = () => {
     if (status === "loading" && !firstChunk.length && !secondChunk.length)
-      return <Spinner />;
+      return (
+        <Flex width="100%" justifyContent="center">
+          <Spinner size="xl" />
+        </Flex>
+      );
 
     if (!firstChunk.length && !secondChunk.length)
       return (
@@ -74,9 +78,11 @@ function ApptensionFeed() {
       </Text>
       {renderNewsList()}
       {status !== "loading" && <Box ref={lastBookElementRef}></Box>}
-      <Box w="100%" justifyContent="center" alignItems="center">
-        <Spinner />
-      </Box>
+      {!!firstChunk.length && !!secondChunk.length && (
+        <Flex w="100%" justifyContent="center" alignItems="center">
+          <Spinner />
+        </Flex>
+      )}
     </MainLayout>
   );
 }
